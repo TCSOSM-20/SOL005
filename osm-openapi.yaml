@@ -1,0 +1,573 @@
+openapi: 3.0.0
+servers:
+  - description: OSM NB API
+    url: https://osm.etsi.org/nbapi/v1.0.0
+info:
+  description: |
+    This is Open Source MANO Northbound API featuring ETSI NFV SOL005.
+    For more information on OSM, you can visit
+    [http://osm.etsi.org](http://osm.etsi.org) or connect to IRCs
+    [Freenode, #etsi-osm](http://webchat.freenode.net?channels=etsi-osm) or on
+    [OSM IRC, #tech](https://osm.etsi.org:8080/kiwi)
+  version: "1.0.0"
+  title: OSM NB API featuring ETSI NFV SOL005
+  contact:
+    email: OSM_TECH@list.etsi.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: 'VNF packages'
+    description: Management operations of VNF descriptors and packages
+  - name: 'NS packages'
+    description: Management operations of NS descriptors and packages
+  - name: 'NS instances'
+    description: Management operations of NS instances
+paths:
+  /nsd/v1/ns_descriptors:
+    get:
+      tags:
+        - "NS packages"
+      summary: Query information about multiple NS descriptor resources
+      description: Query information about multiple NS descriptor resources
+      operationId: getNSDs
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsdInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsdInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "NS packages"
+      summary: Create a new NS descriptor resource
+      description: Create a new NS descriptor resource
+      operationId: addNSD
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateNsdInfoRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsdInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsdInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsd/v1/ns_descriptors/{nsdInfoId}':
+    get:
+      tags:
+        - "NS packages"
+      summary: Read information about an individual NS descriptor resource
+      description: Read information about an individual NS descriptor resource
+      operationId: getNSD
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsdInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsdInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NS packages"
+      summary: Delete an individual NS descriptor resource
+      description: Delete an individual NS descriptor resource
+      operationId: deleteNSD
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "NS packages"
+      summary: Modify the operational state and/or the user defined data of an  individual NS descriptor resource
+      description: Modify the operational state and/or the user defined data of an  individual NS descriptor resource
+      operationId: updateNSD
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/NsdInfoModifications'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsdInfoModifications'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsdInfoModifications'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content':
+    get:
+      tags:
+        - "NS packages"
+      summary: Fetch the content of a NSD
+      description: Fetch the content of a NSD
+      operationId: getNSDcontent
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          $ref: '#/components/requestBodies/NsdContent'
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          $ref: '#/components/requestBodies/NsdContent'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - "NS packages"
+      summary: Upload the content of a NSD
+      description: Upload the content of a NSD
+      operationId: updateNSDcontent
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/NsdContent'
+      responses:
+        '202':
+          description: Accepted
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+externalDocs:
+  description: Find out more OSM
+  url: 'http://osm.etsi.org/wikipub'
+components:
+  responses:
+    BadRequest:
+      description: Bad request. The server cannot process the request due to a client error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Unauthorized:
+      description: Authorization information is missing or invalid.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Forbidden:
+      description: Not enough permissions to do this operation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotFound:
+      description: The specified resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    MethodNotAllowed:
+      description: This method is not supported for the requested resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    NotAcceptable:
+      description: The requested resource content cannot match the Accept headers sent in the request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    Conflict:
+      description: The operation cannot be executed currently, due to a conflict with the state of the resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    UnprocessableEntity:
+      description: The request was well-formed but was unable to be followed due to semantic errors.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    InternalServerError:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    ServiceUnavailable:
+      description: Service temporarily unavailable.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+    UnexpectedError:
+      description: Unexpected error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetails'
+  schemas:
+    NsDescriptor:
+      type: string
+    NsPackage:
+      type: string
+      format: binary
+    userDefinedData:
+      type: object
+      additionalProperties:
+        type: string
+    CreateNsdInfoRequest:
+      type: object
+      properties:
+        userDefinedData:
+          $ref: '#/components/schemas/userDefinedData'
+    NsdOnboardingStateType:
+      type: string
+      enum: [CREATED, UPLAODING, PROCESSING, ONBOARDED]
+      description: |
+        NSD onboarding state:
+         * `CREATED` - The NSD information object is created.
+         * `UPLOADING` - The associated NSD content is being uploaded.
+         * `PROCESSING` - The associated NSD content is being processed, e.g. validation.
+         * `ONBOARDED` - The associated NSD content is on-boarded. 
+    NsdOperationalStateType:
+      type: string
+      enum: [ENABLED, DISABLED]
+      description: |
+        NSD operational state:
+         * `ENABLED` - The NSD is enabled.
+         * `ENABLED` - The NSD is disabled.
+    NsdUsageStateType:
+      type: string
+      enum: [IN_USE, NOT_IN_USE]
+      description: |
+        NSD operational state:
+         * `IN_USE` - The NSD is in use.
+         * `NOT_IN_USE` - The NSD is not in use.
+    NsdInfoModifications:
+      type: object
+      properties:
+        nsdOperationalState:
+          $ref: '#/components/schemas/NsdOperationalStateType'
+        userDefinedData:
+          $ref: '#/components/schemas/userDefinedData'
+    NsdInfo:
+      type: object
+      properties:
+        id:
+          description: |
+           Identifier of the onboarded individual NS descriptor
+           resource. This identifier is allocated by the NFVO. 
+          type: string
+          format: uuid
+        nsdId:
+          description: |
+            This identifier, which is allocated by the NSD
+            designer, identifies the NSD in a globally unique
+            way. It is copied from the NSD content and shall be
+            present after the NSD content is on-boarded.
+          type: string
+          format: uuid
+        nsdName:
+          description: |
+            Name of the onboarded NSD. This information is
+            copied from the NSD content and shall be present
+            after the NSD content is on-boarded. 
+          type: string
+        nsdVersion:
+          description: |
+            Version of the on-boarded NSD. This information is
+            copied from the NSD content and shall be present
+            after the NSD content is on-boarded.
+          type: string
+        nsdDesigner:
+          description: |
+            Designer of the on-boarded NSD. This information is
+            copied from the NSD content and shall be present
+            after the NSD content is on-boarded.
+          type: string
+        nsdInvariantId:
+          description: |
+            This identifier, which is allocated by the NSD designer,
+            identifies an NSD in a version independent manner. This
+            information is copied from the NSD content and shall be
+            present after the NSD content is on-boarded. 
+          type: string
+        vnfPkgIds:
+          description: |
+            List of VNF package identifiers referenced by the on-boarded
+            NS descriptor resource.
+          type: array
+          items:
+            type: string
+            format: uuid
+        pnfdInfoIds:
+          description: |
+            List of PNFD identifiers referenced by the on-boarded NS
+            descriptor resource.
+          type: array
+          items:
+            type: string
+            format: uuid
+        nestedNsdInfoIds:
+          description: |
+            List of NSD identifiers referenced by the on-boarded NS
+            descriptor resource.
+          type: array
+          items:
+            type: string
+            format: uuid
+        nsdOnboardingState:
+          $ref: '#components/schemas/NsdOnboardingStateType'
+        onboardingFailureDetails:
+          $ref: '#/components/schemas/ProblemDetails'
+        nsdOperationalState:
+          $ref: '#components/schemas/NsdOperationalStateType'
+        nsdUsagestate:
+          $ref: '#components/schemas/NsdUsageStateType'
+        userDefinedData:
+          $ref: '#/components/schemas/userDefinedData'
+        self:
+          type: string
+          format: uri
+        nsd_content:
+          type: string
+          format: uri
+      required:
+        - id
+    ArrayOfNsdInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/NsdInfo'
+    # Problem details as described in RFC 7807.
+    # Optional fields "type" and "instance", as described in RFC 7807 are not used here.
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          format: uri
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+          format: uri
+      additionalProperties: true
+      required:
+        - status
+        - detail
+  requestBodies:
+    CreateNsdInfoRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateNsdInfoRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateNsdInfoRequest'
+    NsdInfoModifications:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NsdInfoModifications'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/NsdInfoModifications'
+    NsdContent:
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/NsDescriptor'
+        application/zip:
+          schema:
+            $ref: '#/components/schemas/NsPackage'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+
