@@ -80,6 +80,11 @@ paths:
       responses:
         '201':
           description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
           content:
             application/json:
               schema:
@@ -316,6 +321,441 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  /vnfpkgm/v1/vnf_packages:
+    get:
+      tags:
+        - "VNF packages"
+      summary: Query information about multiple VNF package resources
+      description: Query information about multiple VNF package resoureces
+      operationId: getVnfPkgs
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVnfPkgInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVnfPkgInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "VNF packages"
+      summary: Create a new VNF package resource
+      description: Create a new VNF package resource
+      operationId: addVnfPkg
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVnfPkgInfoRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages/{vnfPkgId}':
+    get:
+      tags:
+        - "VNF packages"
+      summary: Read information about an individual VNF package resource
+      description: Read information about an individual VNF package resource
+      operationId: getVnfPkg
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "VNF packages"
+      summary: Delete an individual VNF package resource
+      description: Delete an individual VNF package resource
+      operationId: deleteVnfPkg
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "VNF packages"
+      summary: Modify the operational state and/or the user defined data of an individual VNF package resource
+      description: Modify the operational state and/or the user defined data of an individual VNF package resource
+      operationId: updateVnfPkg
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/VnfPkgInfoModifications'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfoModifications'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfoModifications'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/vnfd':
+    get:
+      tags:
+        - "VNF packages"
+      summary: Read VNFD of an on-boarded VNF package
+      description: Read VNFD of an on-boarded VNF package
+      operationId: getVnfPkgVNFD
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/VnfDescriptor'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content':
+    get:
+      tags:
+        - "VNF packages"
+      summary: Fetch an on-boarded VNF package
+      description: Fetch an on-boarded VNF package
+      operationId: getVnfPkgContent
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/VnfPackage'
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/VnfPackage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - "VNF packages"
+      summary: Upload a VNF package by providing the content of the VNF package
+      description: Upload a VNF package by providing the content of the VNF package
+      operationId: uploadVnfPkgContent
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/VnfPackage'
+      responses:
+        '202':
+          description: Accepted
+        #'204':
+        #  description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content/upload_from_uri':
+    post:
+      tags:
+        - "VNF packages"
+      summary: Upload a VNF package by providing the URI of the VNF package
+      description: Upload a VNF package by providing the URI of the VNF package
+      operationId: uploadVnfPkgContentFromURI
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/UploadVnfPackageFromUriRequest'
+      responses:
+        '202':
+          description: Accepted
+        #'204':
+        #  description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/artifacts/{artifactPath}':
+    get:
+      tags:
+        - "VNF packages"
+      summary: Fetch individual VNF package artifact
+      description: Fetch individual VNF package artifact
+      operationId: getVnfPkgArtifact
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 externalDocs:
   description: Find out more OSM
   url: 'http://osm.etsi.org/wikipub'
@@ -393,7 +833,7 @@ components:
     NsPackage:
       type: string
       format: binary
-    userDefinedData:
+    KeyValuePairs:
       type: object
       additionalProperties:
         type: string
@@ -401,7 +841,7 @@ components:
       type: object
       properties:
         userDefinedData:
-          $ref: '#/components/schemas/userDefinedData'
+          $ref: '#/components/schemas/KeyValuePairs'
     NsdOnboardingStateType:
       type: string
       enum: [CREATED, UPLAODING, PROCESSING, ONBOARDED]
@@ -417,12 +857,12 @@ components:
       description: |
         NSD operational state:
          * `ENABLED` - The NSD is enabled.
-         * `ENABLED` - The NSD is disabled.
+         * `DISABLED` - The NSD is disabled.
     NsdUsageStateType:
       type: string
       enum: [IN_USE, NOT_IN_USE]
       description: |
-        NSD operational state:
+        NSD usage state:
          * `IN_USE` - The NSD is in use.
          * `NOT_IN_USE` - The NSD is not in use.
     NsdInfoModifications:
@@ -431,7 +871,7 @@ components:
         nsdOperationalState:
           $ref: '#/components/schemas/NsdOperationalStateType'
         userDefinedData:
-          $ref: '#/components/schemas/userDefinedData'
+          $ref: '#/components/schemas/KeyValuePairs'
     NsdInfo:
       type: object
       properties:
@@ -474,6 +914,7 @@ components:
             information is copied from the NSD content and shall be
             present after the NSD content is on-boarded. 
           type: string
+          format: uuid
         vnfPkgIds:
           description: |
             List of VNF package identifiers referenced by the on-boarded
@@ -499,29 +940,59 @@ components:
             type: string
             format: uuid
         nsdOnboardingState:
+          description: |
+            Onboarding state of the individual NS descriptor resource.
           $ref: '#components/schemas/NsdOnboardingStateType'
         onboardingFailureDetails:
+          description: |
+            Failure details of current onboarding procedure. It follows
+            the "ProblemDetails" structure. It shall be present when the
+            "nsdOnboardingState" attribute is CREATED and the uploading or
+            processing fails in NFVO.
           $ref: '#/components/schemas/ProblemDetails'
         nsdOperationalState:
+          description: |
+            Operational state of the individual NS descriptor resource. This
+            attribute can be modified with the PATCH method. If the value of
+            the nsdOnboardingState attribute is not equal to "ONBOARDED", the
+            value of the nsdOperationalState attribute shall be equal to
+            "DISABLED".
           $ref: '#components/schemas/NsdOperationalStateType'
         nsdUsagestate:
+          description: |
+            Usage state of the individual NS descriptor resource. If the value
+            of the nsdOnboardingState attribute is not equal to "ONBOARDED",
+            the value of the nsdUsageState attribute shall be equal to
+            "NOT_IN_USE".
           $ref: '#components/schemas/NsdUsageStateType'
         userDefinedData:
-          $ref: '#/components/schemas/userDefinedData'
+          $ref: '#/components/schemas/KeyValuePairs'
+        _links:
+          description: |
+            Links to resources related to this resource
+          type: string
         self:
+          description: |
+            URI of this resource
           type: string
           format: uri
         nsd_content:
+          description: |
+            Link to the NSD content resource.
           type: string
           format: uri
       required:
         - id
+        - nsdOnboardingState
+        - nsdOperationalState
+        - nsdUsageState
+        - _links
+        - self
+        - nsd_content
     ArrayOfNsdInfo:
       type: array
       items:
         $ref: '#/components/schemas/NsdInfo'
-    # Problem details as described in RFC 7807.
-    # Optional fields "type" and "instance", as described in RFC 7807 are not used here.
     ProblemDetails:
       type: object
       properties:
@@ -541,6 +1012,237 @@ components:
       required:
         - status
         - detail
+    VnfDescriptor:
+      type: string
+    VnfPackage:
+      type: string
+      format: binary
+    CreateVnfPkgInfoRequest:
+      type: object
+      properties:
+        userDefinedData:
+          $ref: '#/components/schemas/KeyValuePairs'
+    VnfPackageOnboardingStateType:
+      type: string
+      enum: [CREATED, UPLAODING, PROCESSING, ONBOARDED]
+      description: |
+        VNF Package onboarding state:
+         * `CREATED` - The VNF Package information object is created.
+         * `UPLOADING` - The VNF Package is being uploaded.
+         * `PROCESSING` - The VNF Package is being processed, e.g. validation.
+         * `ONBOARDED` - The VNF Package is successfully on-boarded.
+    VnfPackageOperationalStateType:
+      type: string
+      enum: [ENABLED, DISABLED]
+      description: |
+        VNF Package operational state:
+         * `ENABLED` - The VNF Package is enabled.
+         * `DISABLED` - The VNF Package is disabled.
+    VnfPackageUsageStateType:
+      type: string
+      enum: [IN_USE, NOT_IN_USE]
+      description: |
+        VNF Package usage state:
+         * `IN_USE` - The VNF Package is in use.
+         * `NOT_IN_USE` - The VNF Package is not in use.
+    #SoftwareImageFormatType:
+    #  type: string
+    #  enum: [AKI, AMI, ARI, BARE, DOCKER, OVA, OVF]
+    #  description: |
+    #    Software image format. Permitted values:
+    #     * `AKI`: a kernel image format
+    #     * `AMI`: a machine image format
+    #     * `ARI`: a ramdisk image format
+    #     * `BARE`: the image does not have a container or metadata envelope
+    #     * `DOCKER`: docker container format
+    #     * `OVA`: OVF package in a tarfile
+    #     * `OVF`: OVF container format
+    VnfPackageSoftwareImageInfo:
+      type: object
+      additionalProperties: true
+      #properties:
+        #id:
+        #  description: |
+        #    Identifier of the software image, unique in the scope of a VNFD.
+        #  type: string
+        #name:
+        #  description: |
+        #    Name of the software image.
+        #  type: string
+        #provider:
+        #  description: |
+        #    Provider of the software image.
+        #  type: string
+        #version:
+        #  description: |
+        #    Version of the software image.
+        #  type: string
+        #checksum:
+        #  description: |
+        #    Checksum of the software image file.
+        #  type: string
+        #containerFormat:
+        #  description: |
+        #    Container format indicates whether the software image is in a
+        #    file format that also contains metadata about the actual
+        #    software.
+        #  $ref: '#/components/schemas/SoftwareImageFormatType'
+        #diskFormat:
+        #  description: |
+        #    Disk format of a software image is the format of the underlying
+        #    disk image.
+        #  $ref: '#/components/schemas/DiskFormatType'
+        # ...
+    VnfPackageArtifactInfo:
+      type: object
+      additionalProperties: true
+    VnfPkgInfoModifications:
+      type: object
+      properties:
+        operationalState:
+          $ref: '#/components/schemas/VnfPackageOperationalStateType'
+        userDefinedData:
+          $ref: '#/components/schemas/KeyValuePairs'
+    VnfPkgInfo:
+      type: object
+      properties:
+        id:
+          description: |
+           Identifier of the VNF package. This identifier is allocated by the NFVO.
+          type: string
+          format: uuid
+        vnfdId:
+          description: |
+            This identifier, which is managed by the VNF provider, identifies
+            the VNF package and the VNFD in a globally unique way. It's
+            copied from the VNFD of the on-boarded VNF package. It shall be
+            present after the VNF package content has been on-boarded and
+            absent otherwise.
+          type: string
+          format: uuid
+        vnfProvider:
+          description: |
+            Deovider of the VNF pacakge and the VNFD. This information is
+            copied from the VNFD. It shall be present after the VNF package
+            content has been on-boarded and absent otherwise.
+          type: string
+        vnfProductName:
+          description: |
+            Name to identify the VNF product. Invariant for the VNF product
+            ligetime. This information is copied from the VNFD. It shall be
+            present after the VNF package content has been on-boarded and
+            absent otherwise.
+          type: string
+        vnfSoftwareVersion:
+          description: |
+            Software version of the VNF. This is changed when there is any
+            change to the software included in the VNF package. This
+            information is copied from the VNFD. It shall be present after the
+            VNF package content has been on-boarded and absent otherwise.
+          type: string
+        vnfdVersion:
+          description: |
+            The version of the VNFD. TSof information is copied from the VNFD.
+            It shall be present after the VNF package content has been
+            on-boarded and absent otherwise.
+          type: string
+        checksum:
+          description: |
+            Checksum of the on-boarded VNF package. It shall be present after
+            the VNF package content has been on-boarded and absent otherwise.
+          type: string
+        softwareImages:
+          description: |
+            Information about VNF package artifacts that are software images.
+            This attribute shall not be present before the VNF package content
+            is on-boarded. Otherwise, this attribute shall be present unless
+            it has been requested to be excluded per attribute selector.
+          type: array
+          items:
+            $ref: '#/components/schemas/VnfPackageSoftwareImageInfo'
+        additionalArtifacts:
+          description: |
+            Information about VNF package artifacts contained in the VNF
+            package that are not software images. This attribute shall not be
+            present before the VNF package content is on-boarded. Otherwise,
+            this attribute shall be present if the VNF package contains
+            additional artifacts.
+          type: array
+          items:
+            $ref: '#/components/schemas/VnfPackageArtifactInfo'
+        onboardingState:
+          description: |
+            On-boarding state of the VNF package.
+          $ref: '#components/schemas/VnfPackageOnboardingStateType'
+        operationalState:
+          description: |
+            Operational  state of the VNF package. If the value of the
+            onboardingState attribute is not equal to "ONBOARDED", the value
+            of the operationalState attribute shall be equal to "DISABLED".
+          $ref: '#components/schemas/VnfPackageOperationalStateType'
+        usageState:
+          description: |
+            Usage state of the VNF package. If the value of the
+            onboardingState attribute is not equal to "ONBOARDED", the value
+            of the usageState attribute shall be equal to "NOT_IN_USE".
+          $ref: '#components/schemas/VnfPackageUsageStateType'
+        userDefinedData:
+          description: |
+            User defined data for the VNF package
+          $ref: '#/components/schemas/KeyValuePairs'
+        _links:
+          description: |
+            Links to resources related to this resource
+          type: string
+        self:
+          description: |
+            URI of this resource
+          type: string
+          format: uri
+        vnfd:
+          description: |
+            Link to the VNFD resource. This link shall be present after the VNF
+            package content is on-boarded. 
+          type: string
+          format: uri
+        package_content:
+          description: |
+            Link to the "VNF package content" resource.
+          type: string
+          format: uri
+      required:
+        - id
+        - onboardingState
+        - operationalState
+        - usageState
+        - _links
+        - self
+        - package_content
+    ArrayOfVnfPkgInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/VnfPkgInfo'
+    UploadVnfPackageFromUriRequest:
+      type: object
+      properties:
+        addressInformation:
+          description: |
+            Address information of the VNF package content. The NFVO can use
+            this address to obtain the VNF package.
+          type: string
+          format: uri
+        userName:
+          description: |
+            User name to be used for authentication. Shall be present if user
+            name is needed but has not been provisioned out of band.
+          type: string
+        password:
+          description: |
+            Password to be used for authentication. Shall be present if password
+            is needed but has not been provisioned out of band.
+          type: string
+      required:
+        - addressInformation
   requestBodies:
     CreateNsdInfoRequest:
       content:
@@ -566,6 +1268,35 @@ components:
         application/zip:
           schema:
             $ref: '#/components/schemas/NsPackage'
+    CreateVnfPkgInfoRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateVnfPkgInfoRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateVnfPkgInfoRequest'
+    VnfPkgInfoModifications:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/VnfPkgInfoModifications'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/VnfPkgInfoModifications'
+    VnfPackage:
+      content:
+        application/zip:
+          schema:
+            $ref: '#/components/schemas/VnfPackage'
+    UploadVnfPackageFromUriRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UploadVnfPackageFromUriRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/UploadVnfPackageFromUriRequest'
   securitySchemes:
     bearerAuth:
       type: http
