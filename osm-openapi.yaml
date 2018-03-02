@@ -24,7 +24,7 @@ tags:
   - name: 'NS instances'
     description: Management operations of NS instances
 paths:
-  /nsd/v1/ns_descriptors:
+  '/nsd/v1/ns_descriptors':
     get:
       tags:
         - "NS packages"
@@ -321,7 +321,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
-  /vnfpkgm/v1/vnf_packages:
+  '/vnfpkgm/v1/vnf_packages':
     get:
       tags:
         - "VNF packages"
@@ -756,6 +756,431 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances':
+    get:
+      tags:
+        - "NS instances"
+      summary: Query information about multiple NS instances
+      description: Query information about multiple NS isntances
+      operationId: getNSinstances
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "NS instances"
+      summary: Create a new NS instance resource
+      description: Create a new NS instance resource
+      operationId: addNSinstance
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/CreateNsRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}':
+    get:
+      tags:
+        - "NS instances"
+      summary: Read an individual NS instance resource
+      description: Read an individual NS instance resource
+      operationId: getNSinstance
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NS instances"
+      summary: Delete an individual NS instance resource
+      description: Delete an individual NS instance resource
+      operationId: deleteNSinstance
+      security:
+        - bearerAuth: []
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}/instantiate':
+    post:
+      tags:
+        - "NS instances"
+      summary: Instantiate a NS
+      description: |
+        Instantiate a NS. The precondition is that the NS instance must have
+        been created and must be in NOT_INSTANTIATED state. As a result of the
+        success of this operation, the NFVO creates a "NS Lifecycle Operation
+        Occurrence" resource for the request, and the NS instance state becomes
+        INSTANTIATED.
+      operationId: instantiateNSinstance
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/InstantiateNsRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}/scale':
+    post:
+      tags:
+        - "NS instances"
+      summary: Scale a NS instance
+      description: |
+        Scale a NS instance. The precondition is that the NS instance must have
+        been created and must be in INSTANTIATED state. As a result of the
+        success of this operation, the NFVO creates a "NS Lifecycle Operation
+        Occurrence" resource for the request, and the NS instance state remains
+        INSTANTIATED.
+      operationId: scaleNSinstance
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/ScaleNsRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}/update':
+    post:
+      tags:
+        - "NS instances"
+      summary: Update a NS instance
+      description: |
+        Update a NS instance. The precondition is that the NS instance must have
+        been created and must be in INSTANTIATED state. As a result of the
+        success of this operation, the NFVO creates a "NS Lifecycle Operation
+        Occurrence" resource for the request, and the NS instance state remains
+        INSTANTIATED.
+      operationId: updateNSinstance
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateNsRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}/heal':
+    post:
+      tags:
+        - "NS instances"
+      summary: Heal a NS instance
+      description: |
+        Heal a NS instance. The precondition is that the NS instance must have
+        been created and must be in INSTANTIATED state. As a result of the
+        success of this operation, the NFVO creates a "NS Lifecycle Operation
+        Occurrence" resource for the request, and the NS instance state remains
+        INSTANTIATED.
+      operationId: healNSinstance
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/HealNsRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}/terminate':
+    post:
+      tags:
+        - "NS instances"
+      summary: Terminate a NS instance
+      description: |
+        Terminate a NS instance. The precondition is that the NS instance must have
+        been created and must be in INSTANTIATED state. As a result of the
+        success of this operation, the NFVO creates a "NS Lifecycle Operation
+        Occurrence" resource for the request, and the NS instance state becomes
+        NOT_INSTANTIATED.
+      operationId: terminateNSinstance
+      security:
+        - bearerAuth: []
+      requestBody:
+        $ref: '#/components/requestBodies/TerminateNsRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 externalDocs:
   description: Find out more OSM
   url: 'http://osm.etsi.org/wikipub'
@@ -877,8 +1302,8 @@ components:
       properties:
         id:
           description: |
-           Identifier of the onboarded individual NS descriptor
-           resource. This identifier is allocated by the NFVO. 
+            Identifier of the onboarded individual NS descriptor
+            resource. This identifier is allocated by the NFVO.
           type: string
           format: uuid
         nsdId:
@@ -1108,7 +1533,7 @@ components:
       properties:
         id:
           description: |
-           Identifier of the VNF package. This identifier is allocated by the NFVO.
+            Identifier of the VNF package. This identifier is allocated by the NFVO.
           type: string
           format: uuid
         vnfdId:
@@ -1243,6 +1668,371 @@ components:
           type: string
       required:
         - addressInformation
+    CreateNsRequest:
+      type: object
+      properties:
+        nsdId:
+          description: |
+            Identifier of the NSD that defines the NS instance to be created.
+          type: string
+          format: uuid
+        nsName:
+          description: |
+            Human-readable name of the NS instance to be created.
+          type: string
+        nsDescription:
+          description: |
+            Human-readable description of the NS instance to be created.
+          type: string
+      required:
+        - nsdId
+        - nsName
+        - nsDescription
+    NsStateType:
+      type: string
+      enum: [NOT_INSTANTIATED, INSTANTIATED]
+      description: |
+        State of the NS instance. Permitted values:
+         * `NOT_INSTANTIATED`: The NS instance is terminated or not instantiated.
+         * `INSTANTIATED`: The NS instance is instantiated.
+    NsInstance:
+      type: object
+      properties:
+        id:
+          description: Identifier of the NS instance.
+          type: string
+          format: uuid
+        nsInstanceName:
+          description: Human readable name of the NS instance.
+          type: string
+        nsInstanceDescription:
+          description: Human readable description of the NS instance.
+          type: string
+        nsdId:
+          description: Identifier of the NSD on which the NS instance is based.
+          type: string
+          format: uuid
+        flavourId:
+          description: |
+            Identifier of the NS deployment flavour applied to the NS instance.
+            This attribute shall be present if the nsState attribute value is
+            INSTANTIATED.
+          type: string
+        vnfInstance:
+          description: |
+            Information on constituent VNF(s) of the NS instance. If the
+            "nsState" attribute is INSTANTIATED, at least either one
+            "vnfInstance" attribute or one "nestedNsInstanceId" attribute shall
+            be present.
+          type: array
+          items:
+            $ref: '#/components/schemas/VnfInstance'
+        pnfInfo:
+          description: |
+            Information on the PNF(s) that are part of the NS instance.
+          type: array
+          items:
+            $ref: '#/components/schemas/PnfInfo'
+        virtualLinkInfo:
+          description: |
+            Information on the VL(s) of the NS instance. This attribute shall
+            be present if the nsState attribute value is INSTANTIATED and if
+            the NS instance has specified connectivity.
+          type: array
+          items:
+            $ref: '#/components/schemas/NsVirtualLinkInfo'
+        vnffgInfo:
+          description: |
+            Information on the VNFFG(s) of the NS instance.
+          type: array
+          items:
+            $ref: '#/components/schemas/VnffgInfo'
+        sapInfo:
+          description: |
+            Information on the SAP(s) of the NS instance.
+          type: array
+          items:
+            $ref: '#/components/schemas/SapInfo'
+        nestedNsInstanceId:
+          description: |
+            Identifier of the nested NS(s) of the NS instance. If the "nsState"
+            attribute is INSTANTIATED, at least either one "vnfInstance"
+            attribute or one "nestedNsInstanceId" attribute shall be present.
+          type: array
+          items:
+            type: string
+            format: uuid
+        nsState:
+          description: |
+            The state of the NS instance.
+          $ref: '#components/schemas/NsStateType'
+        nsScaleStatus:
+          description: |
+            Status of each NS scaling aspect declared in the applicable DF,
+            how "big" the NS instance has been scaled w.r.t. that aspect. This
+            attribute shall be present if the nsState attribute value is
+            INSTANTIATED.
+          type: array
+          items:
+            $ref: '#/components/schemas/NsScaleInfo'
+        additionalAffinityOrAntiAffinityRule:
+          description: |
+            Information on the additional affinity or anti-affinity rule from
+            NS instantiation operation. Shall not conflict with rules already
+            specified in the NSD.
+          type: array
+          items:
+            $ref: '#/components/schemas/AffinityOrAntiAffinityRule'
+        _links:
+          description: |
+            Links to resources related to this resource
+          type: string
+        self:
+          description: |
+            URI of this resource
+          type: string
+          format: uri
+        nestedNsInstances:
+          description: |
+            Links to the nested NS instances of the present NS instance.
+          type: array
+          items:
+            type: string
+            format: uri
+        instantiate:
+          description: |
+            Link to the "instantiate" task resource, if the related operation
+            is possible based on the current status of this NS instance
+            resource (i.e. NS instance in NOT_INSTANTIATED state).
+          type: string
+          format: uri
+        terminate:
+          description: |
+            Link to the "terminate" task resource, if the related operation is
+            possible based on the current status of this NS instance resource
+            (i.e. NS instance is in INSTANTIATED state).
+          type: string
+          format: uri
+        update:
+          description: |
+            Link to the "update" task resource, if the related operation is
+            possible based on the current status of this NS instance resource
+            (i.e. NS instance is in INSTANTIATED state).
+          type: string
+          format: uri
+        scale:
+          description: |
+            Link to the "scale" task resource, if the related operation is
+            supported for this NS instance, and is possible based on the
+            current status of this NS instance resource (i.e. NS instance is in
+            INSTANTIATED state).
+          type: string
+          format: uri
+        heal:
+          description: |
+            Link to the "heal" task resource, if the related operation is
+            supported for this NS instance, and is possible based on the
+            current status of this NS instance resource (i.e. NS instance is in
+            INSTANTIATED state).
+          type: string
+          format: uri
+      required:
+        - id
+        - nsInstanceName
+        - nsInstanceDescription
+        - nsdId
+        - nsdInfoId
+        - nsState
+        - _links
+        - self
+    VnfInstance:
+      type: object
+      additionalProperties: true
+    PnfInfo:
+      type: object
+      additionalProperties: true
+    NsVirtualLinkInfo:
+      type: object
+      additionalProperties: true
+    VnffgInfo:
+      type: object
+      additionalProperties: true
+    SapInfo:
+      type: object
+      additionalProperties: true
+    NsScaleInfo:
+      type: object
+      additionalProperties: true
+    AffinityOrAntiAffinityRule:
+      type: object
+      additionalProperties: true
+    SapData:
+      type: object
+      additionalProperties: true
+    AddPnfData:
+      type: object
+      additionalProperties: true
+    VnfInstanceData:
+      type: object
+      additionalProperties: true
+    VnfLocationConstraint:
+      type: object
+      additionalProperties: true
+    ParamsForVnf:
+      type: object
+      additionalProperties: true
+    InstantiateNsRequest:
+      type: object
+      properties:
+        nsFlavourId:
+          description: Identifier of the NS deployment flavour to be instantiated.
+          type: string
+        sapData:
+          description: Create data concerning the SAPs of this NS.
+          type: array
+          items:
+            $ref: '#/components/schemas/SapData'
+        addpnfData:
+          description: Information on the PNF(s) that are part of this NS.
+          type: array
+          items:
+            $ref: '#/components/schemas/AddPnfData'
+        vnfInstanceData:
+          description: |
+            Specify an existing VNF instance to be used in the NS. If needed,
+            the VNF Profile to be used for this VNF instance is also provided.
+          type: array
+          items:
+            $ref: '#/components/schemas/VnfInstanceData'
+        nestedNsInstanceId:
+          description: |
+            Specify an existing NS instance to be used as a nested NS within the NS.
+          type: array
+          items:
+            type: string
+            format: uuid
+        localizationLanguage:
+          description: |
+            Defines the location constraints for the VNF to be instantiated as part of
+            the NS instantiation. An example can be a constraint for the VNF to be in a
+            specific geographic location.
+          type: array
+          items:
+            $ref: '#/components/schemas/VnfLocationConstraint'
+        additionalParamsForNs:
+          description: |
+            Allows the OSS/BSS to provide additional parameter(s) at the NS level
+            (as opposed to the VNF level, which is covered in additionalParamsForVnf).
+          $ref: '#/components/schemas/KeyValuePairs'
+        additionalParamsForVnf:
+          description: |
+            Allows the OSS/BSS to provide additional parameter(s) per VNF instance
+            (as opposed to the NS level, which is covered in additionalParamsForNs).
+            This is for VNFs that are to be created by the NFVO as part of the NS
+            instantiation and not for existing VNF that are referenced for reuse.
+          type: array
+          items:
+            $ref: '#/components/schemas/ParamsForVnf'
+        startTime:
+          description: |
+            Timestamp indicating the earliest time to instantiate the NS.
+            Cardinality "0" indicates the NS instantiation takes place immediately.
+          type: string
+          format: date-time
+        nsInstantiationLevelId:
+          description: |
+            Identifies one of the NS instantiation levels declared in the DF applicable
+            to this NS instance. If not present, the default NS instantiation level as
+            declared in the NSD shall be used.
+          type: string
+        additionalAffinityOrAntiAffiniityRule:
+          description: |
+            Specifies additional affinity or anti-affinity constraint for the VNF instances
+            to be instantiated as part of the NS instantiation. Shall not conflict with rules
+            already specified in the NSD.
+          type: array
+          items:
+            $ref: '#/components/schemas/AffinityOrAntiAffinityRule'
+      required:
+        - nsFlavourId
+    UpdateNsRequest:
+      type: object
+      properties:
+        updateType:
+          type: string
+          enum: [ ADD_VNF, REMOVE_VNF, INSTANTIATE_VNF, CHANGE_VNF_DF,
+                  OPERATE_VNF, MODIFY_VNF_INFORMATION, CHANGE_EXTERNAL_VNF_CONNECTIVITY,
+                  REMOVE_SAP, ADD_NESTED_NS, REMOVE_NESTED_NS, ASSOC_NEW_NSD_VERSION,
+                  MOVE_VNF, ADD_VNFFG, REMOVE_VNFFG, UPDATE_VNFFG, CHANGE_NS_DF, ADD_PNF,
+                  MODIFY_PNF, REMOVE_PNF ]
+          description: |
+            The type of update. It determines also which one of the following parameters
+            is present in the operation. Possible values include:
+             * `ADD_VNF`: Adding existing VNF instance(s)
+             * `REMOVE_VNF`: Removing VNF instance(s)
+             * `INSTANTIATE_VNF`: Instantiating new VNF(s)
+             * `CHANGE_VNF_DF`: Changing VNF DF
+             * `OPERATE_VNF`: Changing VNF state,
+             * `MODIFY_VNF_INFORMATION`: Modifying VNF information and/or the configurable
+             properties of VNF instance(s)
+             * `CHANGE_EXTERNAL_VNF_CONNECTIVITY`: Changing the external connectivity of VNF
+             instance(s)
+             * `ADD_SAP`: Adding SAP(s)
+             * `REMOVE_SAP`: Removing SAP(s)
+             * `ADD_NESTED_NS`: Adding existing NS instance(s) as nested NS(s)
+             * `REMOVE_NESTED_NS`: Removing existing nested NS instance(s)
+             * `ASSOC_NEW_NSD_VERSION`: Associating a new NSD version to the NS instance
+             * `MOVE_VNF`: Moving VNF instance(s) from one origin NS instance to another target NS
+             instance
+             * `ADD_VNFFG`: Adding VNFFG(s)
+             * `REMOVE_VNFFG`: Removing VNFFG(s)
+             * `UPDATE_VNFFG`: Updating VNFFG(s)
+             * `CHANGE_NS_DF`: Changing NS DF
+             * `ADD_PNF`: Adding PNF
+             * `MODIFY_PNF`: Modifying PNF
+             * `REMOVE_PNF`: Removing PNF
+      # Specific properties are required for each updateType. Pending to be added.
+      additionalProperties: true
+      required:
+        - updateType
+    ScaleNsRequest:
+      type: object
+      additionalProperties: true
+    HealNsData:
+      type: object
+      additionalProperties: true
+    HealVnfData:
+      type: object
+      additionalProperties: true
+    HealNsRequest:
+      type: object
+      properties:
+        healNsData:
+          description: |
+            Provides the information needed to heal an NS. Either the parameter healNsData
+            or the parameter healVnfData, but not both shall be provided.
+          $ref: '#/components/schemas/HealNsData'
+        healVnfData:
+          description: |
+            Provides the information needed to heal a VNF. Either the parameter healNsData
+            or the parameter healVnfData, but not both shall be provided.
+          type: array
+          items:
+            $ref: '#/components/schemas/HealVnfData'
+    TerminateNsRequest:
+      type: object
+      properties:
+        terminationTime:
+          description: |
+            Timestamp indicating the end time of the NS, i.e. the NS will be terminated
+            automatically at this timestamp. Cardinality "0" indicates the NS termination
+            takes place immediately.
+          type: string
+          format: date-time
+    ArrayOfNsInstance:
+      type: array
+      items:
+        $ref: '#/components/schemas/NsInstance'
   requestBodies:
     CreateNsdInfoRequest:
       content:
@@ -1297,8 +2087,57 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/UploadVnfPackageFromUriRequest'
+    CreateNsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateNsRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateNsRequest'
+    InstantiateNsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InstantiateNsRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/InstantiateNsRequest'
+    ScaleNsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ScaleNsRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/ScaleNsRequest'
+    UpdateNsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateNsRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/UpdateNsRequest'
+    HealNsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealNsRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/HealNsRequest'
+    TerminateNsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TerminateNsRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/TerminateNsRequest'
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
+
 
