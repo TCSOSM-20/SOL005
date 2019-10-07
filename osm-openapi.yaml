@@ -1,7 +1,9 @@
 openapi: 3.0.0
+
 servers:
   - description: OSM NB API
     url: https://osm.etsi.org/nbapi/v1.0.0
+
 info:
   description: |
     This is Open Source MANO Northbound API featuring ETSI NFV SOL005.
@@ -15,6 +17,7 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
 tags:
   - name: 'VNF packages'
     description: Management operations of VNF descriptors and packages
@@ -22,7 +25,23 @@ tags:
     description: Management operations of NS descriptors and packages
   - name: 'NS instances'
     description: Management operations of NS instances
+  - name: 'NetSlice templates'
+    description: Management operations of NetSlice Templates
+  - name: 'NetSlice instances'
+    description: Management operations of NetSlice Instances
+# - name: 'NSPM'
+#   description: Management operations of NSPMs
+# - name: 'PDU'
+#   description: Management operations of PDUs
+# - name: 'Admin'
+#   description: Management operations of Administration items
+
+security:
+  - bearerAuth: []
+
 paths:
+
+# BEGIN NS Packages
   '/nsd/v1/ns_descriptors':
     get:
       tags:
@@ -30,8 +49,6 @@ paths:
       summary: Query information about multiple NS descriptor resources
       description: Query information about multiple NS descriptor resources
       operationId: getNSDs
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -72,8 +89,6 @@ paths:
       summary: Create a new NS descriptor resource
       description: Create a new NS descriptor resource
       operationId: addNSD
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/CreateNsdInfoRequest'
       responses:
@@ -87,10 +102,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NsdInfo'
+                $ref: '#/components/schemas/ObjectId'
             application/yaml:
               schema:
-                $ref: '#/components/schemas/NsdInfo'
+                $ref: '#/components/schemas/ObjectId'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -116,14 +131,19 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/nsd/v1/ns_descriptors/{nsdInfoId}':
+    parameters:
+      - name: nsdInfoId
+        in: path
+        required: true
+        description: NSD Info ID
+        schema:
+          type : string
     get:
       tags:
         - "NS packages"
       summary: Read information about an individual NS descriptor resource
       description: Read information about an individual NS descriptor resource
       operationId: getNSD
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -164,8 +184,6 @@ paths:
       summary: Delete an individual NS descriptor resource
       description: Delete an individual NS descriptor resource
       operationId: deleteNSD
-      security:
-        - bearerAuth: []
       responses:
         '204':
           description: No Content
@@ -196,23 +214,14 @@ paths:
     patch:
       tags:
         - "NS packages"
-      summary: Modify the operational state and/or the user defined data of an  individual NS descriptor resource
-      description: Modify the operational state and/or the user defined data of an  individual NS descriptor resource
+      summary: Modify the data of an  individual NS descriptor resource
+      description: Modify the data of an  individual NS descriptor resource
       operationId: updateNSD
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/NsdInfoModifications'
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NsdInfoModifications'
-            application/yaml:
-              schema:
-                $ref: '#/components/schemas/NsdInfoModifications'
+        '204':
+          description: No Content
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -238,25 +247,36 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/nsd/v1/ns_descriptors/{nsdInfoId}/nsd_content':
+    parameters:
+      - name: nsdInfoId
+        in: path
+        required: true
+        description: NSD Info ID
+        schema:
+          type : string
     get:
       tags:
         - "NS packages"
       summary: Fetch the content of a NSD
       description: Fetch the content of a NSD
       operationId: getNSDcontent
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
-          $ref: '#/components/requestBodies/NsdContent'
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/NsPackage'
         '206':
           description: Partial Content
           headers:
             Content-Range:
               schema:
                 type: string
-          $ref: '#/components/requestBodies/NsdContent'
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/NsPackage'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -287,10 +307,8 @@ paths:
       summary: Upload the content of a NSD
       description: Upload the content of a NSD
       operationId: updateNSDcontent
-      security:
-        - bearerAuth: []
       requestBody:
-        $ref: '#/components/requestBodies/NsdContent'
+        $ref: '#/components/requestBodies/NsPackage'
       responses:
         '202':
           description: Accepted
@@ -320,15 +338,346 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/nsd/v1/ns_descriptors/{nsdInfoId}/artifacts/{artifactPath}':
+    parameters:
+      - name: nsdInfoId
+        in: path
+        required: true
+        description: NS Package ID
+        schema:
+          type : string
+      - name: artifactPath
+        in: path
+        required: true
+        description: Artifact Path
+        schema:
+          type : string
+    get:
+      tags:
+        - "NS packages"
+      summary: Fetch individual NS package artifact
+      description: Fetch individual NS package artifact
+      operationId: getNsPkgArtifact
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsd/v1/ns_descriptors/{nsdInfoId}/nsd':
+    parameters:
+      - name: nsdInfoId
+        in: path
+        required: true
+        description: NS Package ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NS packages"
+      summary: Read NSD of an on-boarded NS package
+      description: Read NSD of an on-boarded NS package
+      operationId: getNsPkgNsd
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/NsDescriptor'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsd/v1/ns_descriptors_content':
+    post:
+      tags:
+        - "NS packages"
+      summary: Upload a NS package by providing the content of the NS package
+      description: Upload a NS package by providing the content of the NS package
+      operationId: uploadNsPkgsContent
+      requestBody:
+        content:
+          application/zip:
+            schema:
+              $ref: '#/components/schemas/NsPackage'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '202':
+          description: Accepted
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - "NS packages"
+      summary: Query information about multiple NS package resources
+      description: Query information about multiple NS package resources
+      operationId: getNsPkgsContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsdInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsdInfo'
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsd/v1/ns_descriptors_content/{nsdInfoId}':
+    parameters:
+      - name: nsdInfoId
+        in: path
+        required: true
+        description: NS Package ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NS packages"
+      summary: Read information about an individual NS package resource
+      description: Read information about an individual NS package resource
+      operationId: getNsPkgsIdContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsdInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsdInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - "NS packages"
+      summary: Modify an individual NS package resource
+      description: Modify an individual NS package resource
+      operationId: updateNsPkgsIdContent
+      requestBody:
+        $ref: '#/components/requestBodies/NsdInfoModifications'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NS packages"
+      summary: Delete an individual NS package resource
+      description: Delete an individual NS package resource
+      operationId: deleteNSPkgsIdContent
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+# END NS Packages
+
+# BEGIN VNF Packages
   '/vnfpkgm/v1/vnf_packages':
     get:
       tags:
         - "VNF packages"
       summary: Query information about multiple VNF package resources
-      description: Query information about multiple VNF package resoureces
+      description: Query information about multiple VNF package resources
       operationId: getVnfPkgs
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -369,8 +718,6 @@ paths:
       summary: Create a new VNF package resource
       description: Create a new VNF package resource
       operationId: addVnfPkg
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/CreateVnfPkgInfoRequest'
       responses:
@@ -384,10 +731,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VnfPkgInfo'
+                $ref: '#/components/schemas/ObjectId'
             application/yaml:
               schema:
-                $ref: '#/components/schemas/VnfPkgInfo'
+                $ref: '#/components/schemas/ObjectId'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -413,14 +760,19 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/vnfpkgm/v1/vnf_packages/{vnfPkgId}':
+    parameters:
+      - name: vnfPkgId
+        in: path
+        required: true
+        description: VNF Package ID
+        schema:
+          type : string
     get:
       tags:
         - "VNF packages"
       summary: Read information about an individual VNF package resource
       description: Read information about an individual VNF package resource
       operationId: getVnfPkg
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -461,8 +813,6 @@ paths:
       summary: Delete an individual VNF package resource
       description: Delete an individual VNF package resource
       operationId: deleteVnfPkg
-      security:
-        - bearerAuth: []
       responses:
         '204':
           description: No Content
@@ -493,23 +843,14 @@ paths:
     patch:
       tags:
         - "VNF packages"
-      summary: Modify the operational state and/or the user defined data of an individual VNF package resource
-      description: Modify the operational state and/or the user defined data of an individual VNF package resource
+      summary: Modify an individual VNF package resource
+      description: Modify an individual VNF package resource
       operationId: updateVnfPkg
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/VnfPkgInfoModifications'
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VnfPkgInfoModifications'
-            application/yaml:
-              schema:
-                $ref: '#/components/schemas/VnfPkgInfoModifications'
+        '204':
+          description: No Content
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -535,14 +876,19 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/vnfd':
+    parameters:
+      - name: vnfPkgId
+        in: path
+        required: true
+        description: VNF Package ID
+        schema:
+          type : string
     get:
       tags:
         - "VNF packages"
       summary: Read VNFD of an on-boarded VNF package
       description: Read VNFD of an on-boarded VNF package
-      operationId: getVnfPkgVNFD
-      security:
-        - bearerAuth: []
+      operationId: getVnfPkgVnfd
       responses:
         '200':
           description: OK
@@ -575,14 +921,19 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content':
+    parameters:
+      - name: vnfPkgId
+        in: path
+        required: true
+        description: VNF Package ID
+        schema:
+          type : string
     get:
       tags:
         - "VNF packages"
       summary: Fetch an on-boarded VNF package
       description: Fetch an on-boarded VNF package
       operationId: getVnfPkgContent
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -630,55 +981,16 @@ paths:
       summary: Upload a VNF package by providing the content of the VNF package
       description: Upload a VNF package by providing the content of the VNF package
       operationId: uploadVnfPkgContent
-      security:
-        - bearerAuth: []
       requestBody:
-        $ref: '#/components/requestBodies/VnfPackage'
+        content:
+          application/zip:
+            schema:
+              $ref: '#/components/schemas/VnfPackage'
       responses:
         '202':
           description: Accepted
-        #'204':
-        #  description: No Content
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '405':
-          $ref: '#/components/responses/MethodNotAllowed'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-        '5XX':
-          $ref: '#/components/responses/UnexpectedError'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
-  '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/package_content/upload_from_uri':
-    post:
-      tags:
-        - "VNF packages"
-      summary: Upload a VNF package by providing the URI of the VNF package
-      description: Upload a VNF package by providing the URI of the VNF package
-      operationId: uploadVnfPkgContentFromURI
-      security:
-        - bearerAuth: []
-      requestBody:
-        $ref: '#/components/requestBodies/UploadVnfPackageFromUriRequest'
-      responses:
-        '202':
-          description: Accepted
-        #'204':
-        #  description: No Content
+        '204':
+          description: No Content
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -704,14 +1016,25 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/vnfpkgm/v1/vnf_packages/{vnfPkgId}/artifacts/{artifactPath}':
+    parameters:
+      - name: vnfPkgId
+        in: path
+        required: true
+        description: VNF Package ID
+        schema:
+          type : string
+      - name: artifactPath
+        in: path
+        required: true
+        description: Artifact Path
+        schema:
+          type : string
     get:
       tags:
         - "VNF packages"
       summary: Fetch individual VNF package artifact
       description: Fetch individual VNF package artifact
       operationId: getVnfPkgArtifact
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -755,6 +1078,231 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages_content':
+    post:
+      tags:
+        - "VNF packages"
+      summary: Upload a VNF package by providing the content of the VNF package
+      description: Upload a VNF package by providing the content of the VNF package
+      operationId: uploadVnfPkgsContent
+      requestBody:
+        content:
+          application/zip:
+            schema:
+              $ref: '#/components/schemas/VnfPackage'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '202':
+          description: Accepted
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - "VNF packages"
+      summary: Query information about multiple VNF package resources
+      description: Query information about multiple VNF package resources
+      operationId: getVnfPkgsContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVnfPkgInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVnfPkgInfo'
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/vnfpkgm/v1/vnf_packages_content/{packageContentId}':
+    parameters:
+      - name: packageContentId
+        in: path
+        required: true
+        description: VNF Package Content ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "VNF packages"
+      summary: Read information about an individual VNF package resource
+      description: Read information about an individual VNF package resource
+      operationId: getVnfPkgsIdContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VnfPkgInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - "VNF packages"
+      summary: Modify an individual VNF package resource
+      description: Modify an individual VNF package resource
+      operationId: updateVnfPkgsIdContent
+      requestBody:
+        $ref: '#/components/requestBodies/VnfPkgInfoModifications'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "VNF packages"
+      summary: Delete an individual VNF package resource
+      description: Delete an individual VNF package resource
+      operationId: deleteVnfPkgsIdContent
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+# END VNF Packages
+
+# BEGIN NS Instances
   '/nslcm/v1/ns_instances':
     get:
       tags:
@@ -762,8 +1310,6 @@ paths:
       summary: Query information about multiple NS instances
       description: Query information about multiple NS isntances
       operationId: getNSinstances
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -804,8 +1350,6 @@ paths:
       summary: Create a new NS instance resource
       description: Create a new NS instance resource
       operationId: addNSinstance
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/CreateNsRequest'
       responses:
@@ -819,10 +1363,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NsInstance'
+                $ref: '#/components/schemas/ObjectId'
             application/yaml:
               schema:
-                $ref: '#/components/schemas/NsInstance'
+                $ref: '#/components/schemas/ObjectId'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -848,14 +1392,19 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/nslcm/v1/ns_instances/{nsInstanceId}':
+    parameters:
+      - name: nsInstanceId
+        in: path
+        required: true
+        description: NS Instance ID
+        schema:
+          type : string
     get:
       tags:
         - "NS instances"
       summary: Read an individual NS instance resource
       description: Read an individual NS instance resource
       operationId: getNSinstance
-      security:
-        - bearerAuth: []
       responses:
         '200':
           description: OK
@@ -896,8 +1445,6 @@ paths:
       summary: Delete an individual NS instance resource
       description: Delete an individual NS instance resource
       operationId: deleteNSinstance
-      security:
-        - bearerAuth: []
       responses:
         '204':
           description: No Content
@@ -926,6 +1473,13 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/nslcm/v1/ns_instances/{nsInstanceId}/instantiate':
+    parameters:
+      - name: nsInstanceId
+        in: path
+        required: true
+        description: NS Instance ID
+        schema:
+          type : string
     post:
       tags:
         - "NS instances"
@@ -937,8 +1491,6 @@ paths:
         Occurrence" resource for the request, and the NS instance state becomes
         INSTANTIATED.
       operationId: instantiateNSinstance
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/InstantiateNsRequest'
       responses:
@@ -952,6 +1504,13 @@ paths:
               schema:
                 type: string
                 format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -977,6 +1536,13 @@ paths:
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/nslcm/v1/ns_instances/{nsInstanceId}/scale':
+    parameters:
+      - name: nsInstanceId
+        in: path
+        required: true
+        description: NS Instance ID
+        schema:
+          type : string
     post:
       tags:
         - "NS instances"
@@ -988,8 +1554,6 @@ paths:
         Occurrence" resource for the request, and the NS instance state remains
         INSTANTIATED.
       operationId: scaleNSinstance
-      security:
-        - bearerAuth: []
       requestBody:
         $ref: '#/components/requestBodies/ScaleNsRequest'
       responses:
@@ -1027,109 +1591,14 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
-  '/nslcm/v1/ns_instances/{nsInstanceId}/update':
-    post:
-      tags:
-        - "NS instances"
-      summary: Update a NS instance
-      description: |
-        Update a NS instance. The precondition is that the NS instance must have
-        been created and must be in INSTANTIATED state. As a result of the
-        success of this operation, the NFVO creates a "NS Lifecycle Operation
-        Occurrence" resource for the request, and the NS instance state remains
-        INSTANTIATED.
-      operationId: updateNSinstance
-      security:
-        - bearerAuth: []
-      requestBody:
-        $ref: '#/components/requestBodies/UpdateNsRequest'
-      responses:
-        '202':
-          description: Accepted
-          headers:
-            Location:
-              description: |
-                It must point to the new "NS Lifecycle Operation Occurrence"
-                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
-              schema:
-                type: string
-                format: uri
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '405':
-          $ref: '#/components/responses/MethodNotAllowed'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-        '5XX':
-          $ref: '#/components/responses/UnexpectedError'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
-  '/nslcm/v1/ns_instances/{nsInstanceId}/heal':
-    post:
-      tags:
-        - "NS instances"
-      summary: Heal a NS instance
-      description: |
-        Heal a NS instance. The precondition is that the NS instance must have
-        been created and must be in INSTANTIATED state. As a result of the
-        success of this operation, the NFVO creates a "NS Lifecycle Operation
-        Occurrence" resource for the request, and the NS instance state remains
-        INSTANTIATED.
-      operationId: healNSinstance
-      security:
-        - bearerAuth: []
-      requestBody:
-        $ref: '#/components/requestBodies/HealNsRequest'
-      responses:
-        '202':
-          description: Accepted
-          headers:
-            Location:
-              description: |
-                It must point to the new "NS Lifecycle Operation Occurrence"
-                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
-              schema:
-                type: string
-                format: uri
-        '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '405':
-          $ref: '#/components/responses/MethodNotAllowed'
-        '406':
-          $ref: '#/components/responses/NotAcceptable'
-        '409':
-          $ref: '#/components/responses/Conflict'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-        '503':
-          $ref: '#/components/responses/ServiceUnavailable'
-        '5XX':
-          $ref: '#/components/responses/UnexpectedError'
-        default:
-          $ref: '#/components/responses/UnexpectedError'
   '/nslcm/v1/ns_instances/{nsInstanceId}/terminate':
+    parameters:
+      - name: nsInstanceId
+        in: path
+        required: true
+        description: NS Instance ID
+        schema:
+          type : string
     post:
       tags:
         - "NS instances"
@@ -1141,9 +1610,8 @@ paths:
         Occurrence" resource for the request, and the NS instance state becomes
         NOT_INSTANTIATED.
       operationId: terminateNSinstance
-      security:
-        - bearerAuth: []
       requestBody:
+        # Request data is not required
         $ref: '#/components/requestBodies/TerminateNsRequest'
       responses:
         '202':
@@ -1156,6 +1624,13 @@ paths:
               schema:
                 type: string
                 format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -1180,9 +1655,1688 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances/{nsInstanceId}/action':
+    parameters:
+      - name: nsInstanceId
+        in: path
+        required: true
+        description: NS Instance ID
+        schema:
+          type : string
+    post:
+      tags:
+        - "NS instances"
+      summary: Execute an action on a NS instance
+      description: |
+        Execute an action on a NS instance.
+        The NS instance must have been created and must be in INSTANTIATED state.
+      operationId: actionOnNSinstance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NSinstanceActionRequest'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/NSinstanceActionRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances_content':
+    get:
+      tags:
+        - "NS instances"
+      summary: Query information about multiple NS instances
+      description: Query information about multiple NS isntances
+      operationId: getNSinstancesContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "NS instances"
+      summary: Create a new NS instance
+      description: Create a new NS instance
+      operationId: createNSinstanceContent
+      requestBody:
+        $ref: '#/components/requestBodies/CreateNSinstanceContentRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNSinstanceContentResponse'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/CreateNSinstanceContentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_instances_content/{nsInstanceContentId}':
+    parameters:
+      - name: nsInstanceContentId
+        in: path
+        required: true
+        description: NS Instance Content ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NS instances"
+      summary: Read an individual NS instance resource
+      description: Read an individual NS instance resource
+      operationId: getNSinstanceContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NS instances"
+      summary: Delete an individual NS instance resource
+      description: Delete an individual NS instance resource
+      operationId: deleteNSinstanceContent
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_lcm_op_occs':
+    get:
+      tags:
+        - "NS instances"
+      summary: Query information about multiple NS LCM Operation Occurrences
+      description: Query information about multiple NS LCM Operation Occurrences
+      operationId: getNSLCMOpOccs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsLcmOpOcc'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsLcmOpOcc'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/ns_lcm_op_occs/{nsLcmOpOccId}':
+    parameters:
+      - name: nsLcmOpOccId
+        in: path
+        required: true
+        description: NS LCM Operation Occurrence ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NS instances"
+      summary: Query information about an individual NS LCM Operation Occurrence
+      description: Query information about an individual NS LCM Operation Occurrence
+      operationId: getNSLCMOpOcc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsLcmOpOcc'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsLcmOpOcc'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/vnf_instances':
+    get:
+      tags:
+        - "NS instances"
+      summary: Query information about multiple VNF Instances
+      description: Query information about multiple VNF Instances
+      operationId: getVnfInstances
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVnfInstanceInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVnfInstanceInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nslcm/v1/vnf_instances/{vnfInstanceId}':
+    parameters:
+      - name: vnfInstanceId
+        in: path
+        required: true
+        description: VNF Instance ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NS instances"
+      summary: Query information about an individual VNF Instance
+      description: Query information about an individual VNF Instance
+      operationId: getVnfInstance
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VnfInstanceInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VnfInstanceInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+# END NS Instances
+
+# BEGIN NetSlice Templates
+  '/nst/v1/netslice_templates':
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Query information about multiple NetSlice template resources
+      description: Query information about multiple NetSlice template resources
+      operationId: getNSTs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNstInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNstInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "NetSlice templates"
+      summary: Create a new NetSlice template resource
+      description: Create a new NetSlice template resource
+      operationId: addNST
+      requestBody:
+        $ref: '#/components/requestBodies/CreateNstInfoRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nst/v1/netslice_templates/{netsliceTemplateId}':
+    parameters:
+      - name: netsliceTemplateId
+        in: path
+        required: true
+        description: NetSlice Template ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Read information about an individual NetSlice template resource
+      description: Read information about an individual NetSlice template resource
+      operationId: getNST
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NstInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NstInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NetSlice templates"
+      summary: Delete an individual NetSlice template resource
+      description: Delete an individual NetSlice template resource
+      operationId: deleteNST
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nst/v1/netslice_templates/{netsliceTemplateId}/artifacts/{artifactPath}':
+    parameters:
+      - name: netsliceTemplateId
+        in: path
+        required: true
+        description: NetSlice Template ID
+        schema:
+          type : string
+      - name: artifactPath
+        in: path
+        required: true
+        description: Artifact Path
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Fetch individual NetSlice Template artifact
+      description: Fetch individual NetSlice Template artifact
+      operationId: getNstArtifact
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nst/v1/netslice_templates/{netsliceTemplateId}/nst':
+    parameters:
+      - name: netsliceTemplateId
+        in: path
+        required: true
+        description: NetSlice Template ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Read NST of an on-boarded NetSlice Template
+      description: Read NST of an on-boarded NetSlice Template
+      operationId: getNstNst
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/NetSliceTemplate'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nst/v1/netslice_templates/{netsliceTemplateId}/nst_content':
+    parameters:
+      - name: netsliceTemplateId
+        in: path
+        required: true
+        description: NetSlice Template ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Fetch the content of a NST
+      description: Fetch the content of a NST
+      operationId: getNSTcontent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/NetSlicePackage'
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/zip:
+              schema:
+                $ref: '#/components/schemas/NetSlicePackage'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - "NetSlice templates"
+      summary: Upload the content of a NST
+      description: Upload the content of a NST
+      operationId: updateNSTcontent
+      requestBody:
+        $ref: '#/components/requestBodies/NetSlicePackage'
+      responses:
+        '202':
+          description: Accepted
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nst/v1/netslice_templates_content':
+    post:
+      tags:
+        - "NetSlice templates"
+      summary: Upload a NetSlice package by providing the content of the NetSlice package
+      description: Upload a NetSlice package by providing the content of the NetSlice package
+      operationId: uploadNstContent
+      requestBody:
+        content:
+          application/zip:
+            schema:
+              $ref: '#/components/schemas/NetSlicePackage'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '202':
+          description: Accepted
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Query information about multiple NetSlice Template resources
+      description: Query information about multiple NetSlice Template resources
+      operationId: getNstContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNstInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNstInfo'
+        '206':
+          description: Partial Content
+          headers:
+            Content-Range:
+              schema:
+                type: string
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nst/v1/netslice_templates_content/{netsliceTemplateContentId}':
+    parameters:
+      - name: netsliceTemplateContentId
+        in: path
+        required: true
+        description: NetSlice Template ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice templates"
+      summary: Read information about an individual NetSlice Template resource
+      description: Read information about an individual NetSlice Template resource
+      operationId: getNstIdContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NstInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NstInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    put:
+      tags:
+        - "NetSlice templates"
+      summary: Modify an individual NetSlice Template resource
+      description: Modify an individual NetSlice Template resource
+      operationId: updateNstIdContent
+      requestBody:
+        $ref: '#/components/requestBodies/NstInfoModifications'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NetSlice templates"
+      summary: Delete an individual NetSlice Template resource
+      description: Delete an individual NetSlice Template resource
+      operationId: deleteNstIdContent
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+# END NetSlice Templates
+
+# BEGIN NetSlice Instances
+  '/nsilcm/v1/netslice_instances':
+    get:
+      tags:
+        - "NetSlice instances"
+      summary: Query information about multiple NetSlice instances
+      description: Query information about multiple NetSlice isntances
+      operationId: getNSIs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNetSliceInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNetSliceInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "NetSlice instances"
+      summary: Create a new NetSlice instance resource
+      description: Create a new NetSlice instance resource
+      operationId: addNSI
+      requestBody:
+        $ref: '#/components/requestBodies/CreateNsiRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/netslice_instances/{netsliceInstanceId}':
+    parameters:
+      - name: netsliceInstanceId
+        in: path
+        required: true
+        description: NetSlice Instance ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice instances"
+      summary: Read an individual NetSlice instance resource
+      description: Read an individual NetSlice instance resource
+      operationId: getNSI
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetSliceInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NetSliceInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NetSlice instances"
+      summary: Delete an individual NetSlice instance resource
+      description: Delete an individual NetSlice instance resource
+      operationId: deleteNSI
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/netslice_instances/{netsliceInstanceId}/instantiate':
+    parameters:
+      - name: netsliceInstanceId
+        in: path
+        required: true
+        description: NetSlice Instance ID
+        schema:
+          type : string
+    post:
+      tags:
+        - "NetSlice instances"
+      summary: Instantiate a NetSlice
+      description: |
+        Instantiate a NetSlice. The precondition is that the NetSlice instance
+        must have been created and must be in NOT_INSTANTIATED state. As a result
+        of the success of this operation, the NFVO creates a "NetSlice Lifecycle
+        Operation Occurrence" resource for the request, and the NS instance state
+        becomes INSTANTIATED.
+      operationId: instantiateNSI
+      requestBody:
+        $ref: '#/components/requestBodies/InstantiateNsiRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NetSlice Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../nsi_lcm_op_occs/{nsiLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/netslice_instances/{netsliceInstanceId}/terminate':
+    parameters:
+      - name: netsliceInstanceId
+        in: path
+        required: true
+        description: NetSlice Instance ID
+        schema:
+          type : string
+    post:
+      tags:
+        - "NetSlice instances"
+      summary: Terminate a NetSlice instance
+      description: |
+        Terminate a NetSlice instance. The precondition is that the NetSlice instance
+        must have been created and must be in INSTANTIATED state. As a result of the
+        success of this operation, the NFVO creates a "NetSlice Lifecycle Operation
+        Occurrence" resource for the request, and the NetSlice instance state becomes
+        NOT_INSTANTIATED.
+      operationId: terminateNSI
+      requestBody:
+        # Request data is not required
+        $ref: '#/components/requestBodies/TerminateNsiRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NetSlice Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../nsi_lcm_op_occs/{nsiLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/netslice_instances/{netsliceInstanceId}/action':
+    parameters:
+      - name: netsliceInstanceId
+        in: path
+        required: true
+        description: NetSlice Instance ID
+        schema:
+          type : string
+    post:
+      tags:
+        - "NetSlice instances"
+      summary: Execute an action on a NetSlice instance
+      description: |
+        Execute an action on a NetSlice instance.
+        The NetSlice instance must have been created and must be in INSTANTIATED state.
+      operationId: actionOnNSI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NsiActionRequest'
+          application/yaml:
+            schema:
+              $ref: '#/components/schemas/NsiActionRequest'
+      responses:
+        '202':
+          description: Accepted
+          headers:
+            Location:
+              description: |
+                It must point to the new "NS Lifecycle Operation Occurrence"
+                resource, i.e. an URI like ".../ns_lcm_op_occs/{nsLcmOpOccId}"
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/netslice_instances_content':
+    get:
+      tags:
+        - "NetSlice instances"
+      summary: Query information about multiple NetSlice instances
+      description: Query information about multiple NetSlice isntances
+      operationId: getNSIsContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNetSliceInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNetSliceInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "NetSlice instances"
+      summary: Create a new NetSlice instance
+      description: Create a new NetSlice instance
+      operationId: createNSIContent
+      requestBody:
+        $ref: '#/components/requestBodies/CreateNsiContentRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateNsiContentResponse'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/CreateNsiContentResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/netslice_instances_content/{netsliceInstanceContentId}':
+    parameters:
+      - name: netsliceInstanceContentId
+        in: path
+        required: true
+        description: NetSlice Instance Content ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice instances"
+      summary: Read an individual NetSlice instance resource
+      description: Read an individual NetSlice instance resource
+      operationId: getNSIContent
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetSliceInstance'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NetSliceInstance'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "NetSlice instances"
+      summary: Delete an individual NS instance resource
+      description: Delete an individual NS instance resource
+      operationId: deleteNSIContent
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/nsi_lcm_op_occs':
+    get:
+      tags:
+        - "NetSlice instances"
+      summary: Query information about multiple NetSlice LCM Operation Occurrences
+      description: Query information about multiple NetSlice LCM Operation Occurrences
+      operationId: getNsiLcmOpOccs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsiLcmOpOcc'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfNsiLcmOpOcc'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/nsilcm/v1/nsi_lcm_op_occs/{nsiLcmOpOccId}':
+    parameters:
+      - name: nsiLcmOpOccId
+        in: path
+        required: true
+        description: NetSlice LCM Operation Occurrence ID
+        schema:
+          type : string
+    get:
+      tags:
+        - "NetSlice instances"
+      summary: Query information about an individual NetSlice LCM Operation Occurrence
+      description: Query information about an individual NetSlice LCM Operation Occurrence
+      operationId: getNsiLcmOpOcc
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsiLcmOpOcc'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsiLcmOpOcc'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+# END NetSlice Instances
+
+# BEGIN NSPM
+  # /nspm/v1/pm_jobs/{pmJobId}/reports/{reportId}
+# END NSPM
+
+# BEGIN PDU
+  # /pdu/v1/pdu_descriptors
+  # /pdu/v1/pdu_descriptors/{pduDescriptorId}
+# END PDU
+
+# BEGIN Admin
+  # /admin/v1/tokens
+  # /admin/v1/tokens/{tokenId}
+  # /admin/v1/users
+  # /admin/v1/users/{userId}
+  # /admin/v1/projects
+  # /admin/v1/projects/{projectId}
+  # /admin/v1/roles
+  # /admin/v1/roles/{roleId}
+  # /admin/v1/vims
+  # /admin/v1/vims/{vimId}
+  # /admin/v1/vim_accounts
+  # /admin/v1/vim_accounts/{vimAccountId}
+  # /admin/v1/wim_accounts
+  # /admin/v1/wim_accounts/{wimAccountId}
+  # /admin/v1/sdns
+  # /admin/v1/sdns/{sdnId}
+# END Admin
+
 externalDocs:
   description: Find out more OSM
   url: 'http://osm.etsi.org/wikipub'
+
 components:
   responses:
     BadRequest:
@@ -1251,168 +3405,121 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ProblemDetails'
-  schemas:
+    VnfDescriptor:
+      description: VNF Descriptor (plaintext)
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/VnfDescriptor'
+    VnfPackage:
+      description: VNF Package (compressed)
+      content:
+        application/zip:
+          schema:
+            $ref: '#/components/schemas/VnfPackage'
     NsDescriptor:
-      type: string
+      description: NS Descriptor (plaintext)
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/NsDescriptor'
     NsPackage:
-      type: string
-      format: binary
-    KeyValuePairs:
-      type: object
-      additionalProperties:
-        type: string
-    CreateNsdInfoRequest:
-      type: object
-      properties:
-        userDefinedData:
-          $ref: '#/components/schemas/KeyValuePairs'
-    NsdOnboardingStateType:
-      type: string
-      enum: [CREATED, UPLAODING, PROCESSING, ONBOARDED]
-      description: |
-        NSD onboarding state:
-         * `CREATED` - The NSD information object is created.
-         * `UPLOADING` - The associated NSD content is being uploaded.
-         * `PROCESSING` - The associated NSD content is being processed, e.g. validation.
-         * `ONBOARDED` - The associated NSD content is on-boarded. 
-    NsdOperationalStateType:
-      type: string
-      enum: [ENABLED, DISABLED]
-      description: |
-        NSD operational state:
-         * `ENABLED` - The NSD is enabled.
-         * `DISABLED` - The NSD is disabled.
-    NsdUsageStateType:
-      type: string
-      enum: [IN_USE, NOT_IN_USE]
-      description: |
-        NSD usage state:
-         * `IN_USE` - The NSD is in use.
-         * `NOT_IN_USE` - The NSD is not in use.
-    NsdInfoModifications:
-      type: object
-      properties:
-        nsdOperationalState:
-          $ref: '#/components/schemas/NsdOperationalStateType'
-        userDefinedData:
-          $ref: '#/components/schemas/KeyValuePairs'
-    NsdInfo:
+      description: NS Package (compressed)
+      content:
+        application/zip:
+          schema:
+            $ref: '#/components/schemas/NsPackage'
+    NetSliceTemplate:
+      description: NetSlice Template (plaintext)
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/NetSliceTemplate'
+    NetSlicePackage:
+      description: NetSlice Package (compressed)
+      content:
+        application/zip:
+          schema:
+            $ref: '#/components/schemas/NetSlicePackage'
+  # END RESPONSES
+
+  schemas:
+    ObjectId:
       type: object
       properties:
         id:
+          type: string
+          format: uuid
+    KeyValuePairs:
+      # A free list of key:value pairs
+      type: object
+      additionalProperties: true
+    NsDescriptor:
+      type: string
+      format: yaml|json
+    NsPackage:
+      type: string
+      format: binary
+    CreateNsdInfoRequest:
+      # A free list of key:value pairs
+      type: object
+      additionalProperties: true
+    NsdInfoModifications:
+      description: |
+        NS Descriptor Information
+        Only generic fields (id, name, description) are described
+        For a full specification of the NS Descriptor see:
+        http://osm-download.etsi.org/ftp/osm-doc/nsd.html
+      type: object
+      properties:
+        id:
+          description: NSD Identifier
+          type: string
+        name:
+          description: NSD Name
+          type: string
+        description:
+          description: NSD Description
+          type: string
+        nsd:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsd.html'
+    NsdInfo:
+      description: |
+        NS Descriptor Information
+        Only generic fields (_id, id, name, description) are described
+        For a full specification of the NS Descriptor see:
+        http://osm-download.etsi.org/ftp/osm-doc/nsd.html
+      type: object
+      properties:
+        _id:
           description: |
             Identifier of the onboarded individual NS descriptor
             resource. This identifier is allocated by the NFVO.
           type: string
           format: uuid
-        nsdId:
+        id:
           description: |
             This identifier, which is allocated by the NSD
             designer, identifies the NSD in a globally unique
             way. It is copied from the NSD content and shall be
             present after the NSD content is on-boarded.
           type: string
-          format: uuid
-        nsdName:
+        name:
           description: |
             Name of the onboarded NSD. This information is
             copied from the NSD content and shall be present
-            after the NSD content is on-boarded. 
-          type: string
-        nsdVersion:
-          description: |
-            Version of the on-boarded NSD. This information is
-            copied from the NSD content and shall be present
             after the NSD content is on-boarded.
           type: string
-        nsdDesigner:
+        description:
           description: |
-            Designer of the on-boarded NSD. This information is
-            copied from the NSD content and shall be present
-            after the NSD content is on-boarded.
+            Description of the onboarded NSD.
+            This information is copied from the NSD content.
           type: string
-        nsdInvariantId:
-          description: |
-            This identifier, which is allocated by the NSD designer,
-            identifies an NSD in a version independent manner. This
-            information is copied from the NSD content and shall be
-            present after the NSD content is on-boarded. 
-          type: string
-          format: uuid
-        vnfPkgIds:
-          description: |
-            List of VNF package identifiers referenced by the on-boarded
-            NS descriptor resource.
-          type: array
-          items:
-            type: string
-            format: uuid
-        pnfdInfoIds:
-          description: |
-            List of PNFD identifiers referenced by the on-boarded NS
-            descriptor resource.
-          type: array
-          items:
-            type: string
-            format: uuid
-        nestedNsdInfoIds:
-          description: |
-            List of NSD identifiers referenced by the on-boarded NS
-            descriptor resource.
-          type: array
-          items:
-            type: string
-            format: uuid
-        nsdOnboardingState:
-          description: |
-            Onboarding state of the individual NS descriptor resource.
-          $ref: '#components/schemas/NsdOnboardingStateType'
-        onboardingFailureDetails:
-          description: |
-            Failure details of current onboarding procedure. It follows
-            the "ProblemDetails" structure. It shall be present when the
-            "nsdOnboardingState" attribute is CREATED and the uploading or
-            processing fails in NFVO.
-          $ref: '#/components/schemas/ProblemDetails'
-        nsdOperationalState:
-          description: |
-            Operational state of the individual NS descriptor resource. This
-            attribute can be modified with the PATCH method. If the value of
-            the nsdOnboardingState attribute is not equal to "ONBOARDED", the
-            value of the nsdOperationalState attribute shall be equal to
-            "DISABLED".
-          $ref: '#components/schemas/NsdOperationalStateType'
-        nsdUsagestate:
-          description: |
-            Usage state of the individual NS descriptor resource. If the value
-            of the nsdOnboardingState attribute is not equal to "ONBOARDED",
-            the value of the nsdUsageState attribute shall be equal to
-            "NOT_IN_USE".
-          $ref: '#components/schemas/NsdUsageStateType'
-        userDefinedData:
-          $ref: '#/components/schemas/KeyValuePairs'
-        _links:
-          description: |
-            Links to resources related to this resource
-          type: string
-        self:
-          description: |
-            URI of this resource
-          type: string
-          format: uri
-        nsd_content:
-          description: |
-            Link to the NSD content resource.
-          type: string
-          format: uri
+        nsd:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsd.html'
       required:
+        - _id
         - id
-        - nsdOnboardingState
-        - nsdOperationalState
-        - nsdUsageState
-        - _links
-        - self
-        - nsd_content
     ArrayOfNsdInfo:
       type: array
       items:
@@ -1438,235 +3545,64 @@ components:
         - detail
     VnfDescriptor:
       type: string
+      format: yaml|json
     VnfPackage:
       type: string
       format: binary
     CreateVnfPkgInfoRequest:
-      type: object
-      properties:
-        userDefinedData:
-          $ref: '#/components/schemas/KeyValuePairs'
-    VnfPackageOnboardingStateType:
-      type: string
-      enum: [CREATED, UPLAODING, PROCESSING, ONBOARDED]
-      description: |
-        VNF Package onboarding state:
-         * `CREATED` - The VNF Package information object is created.
-         * `UPLOADING` - The VNF Package is being uploaded.
-         * `PROCESSING` - The VNF Package is being processed, e.g. validation.
-         * `ONBOARDED` - The VNF Package is successfully on-boarded.
-    VnfPackageOperationalStateType:
-      type: string
-      enum: [ENABLED, DISABLED]
-      description: |
-        VNF Package operational state:
-         * `ENABLED` - The VNF Package is enabled.
-         * `DISABLED` - The VNF Package is disabled.
-    VnfPackageUsageStateType:
-      type: string
-      enum: [IN_USE, NOT_IN_USE]
-      description: |
-        VNF Package usage state:
-         * `IN_USE` - The VNF Package is in use.
-         * `NOT_IN_USE` - The VNF Package is not in use.
-    #SoftwareImageFormatType:
-    #  type: string
-    #  enum: [AKI, AMI, ARI, BARE, DOCKER, OVA, OVF]
-    #  description: |
-    #    Software image format. Permitted values:
-    #     * `AKI`: a kernel image format
-    #     * `AMI`: a machine image format
-    #     * `ARI`: a ramdisk image format
-    #     * `BARE`: the image does not have a container or metadata envelope
-    #     * `DOCKER`: docker container format
-    #     * `OVA`: OVF package in a tarfile
-    #     * `OVF`: OVF container format
-    VnfPackageSoftwareImageInfo:
-      type: object
-      additionalProperties: true
-      #properties:
-        #id:
-        #  description: |
-        #    Identifier of the software image, unique in the scope of a VNFD.
-        #  type: string
-        #name:
-        #  description: |
-        #    Name of the software image.
-        #  type: string
-        #provider:
-        #  description: |
-        #    Provider of the software image.
-        #  type: string
-        #version:
-        #  description: |
-        #    Version of the software image.
-        #  type: string
-        #checksum:
-        #  description: |
-        #    Checksum of the software image file.
-        #  type: string
-        #containerFormat:
-        #  description: |
-        #    Container format indicates whether the software image is in a
-        #    file format that also contains metadata about the actual
-        #    software.
-        #  $ref: '#/components/schemas/SoftwareImageFormatType'
-        #diskFormat:
-        #  description: |
-        #    Disk format of a software image is the format of the underlying
-        #    disk image.
-        #  $ref: '#/components/schemas/DiskFormatType'
-        # ...
-    VnfPackageArtifactInfo:
+      # A free list of key:value pairs
       type: object
       additionalProperties: true
     VnfPkgInfoModifications:
-      type: object
-      properties:
-        operationalState:
-          $ref: '#/components/schemas/VnfPackageOperationalStateType'
-        userDefinedData:
-          $ref: '#/components/schemas/KeyValuePairs'
-    VnfPkgInfo:
+      description: |
+        VNF Package Information
+        Only generic fields (id, name, description) are described
+        For a full specification of the VNF Descriptor see:
+        http://osm-download.etsi.org/ftp/osm-doc/vnfd.html
       type: object
       properties:
         id:
+          description: VNF Package Identifier
+          type: string
+        name:
+          description: VNF Package Name
+          type: string
+        description:
+          description: VNF Package description
+          type: string
+        vnfd:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/vnfd.html'
+    VnfPkgInfo:
+      description: |
+        VNF Package Information
+        Only generic fields (_id, id, name, description) are described
+        For a full specification of the VNF Descriptor see:
+        http://osm-download.etsi.org/ftp/osm-doc/vnfd.html
+      type: object
+      properties:
+        _id:
           description: |
             Identifier of the VNF package. This identifier is allocated by the NFVO.
           type: string
           format: uuid
-        vnfdId:
-          description: |
-            This identifier, which is managed by the VNF provider, identifies
-            the VNF package and the VNFD in a globally unique way. It's
-            copied from the VNFD of the on-boarded VNF package. It shall be
-            present after the VNF package content has been on-boarded and
-            absent otherwise.
+        id:
+          description: VNF Package Identifier
           type: string
-          format: uuid
-        vnfProvider:
-          description: |
-            Deovider of the VNF pacakge and the VNFD. This information is
-            copied from the VNFD. It shall be present after the VNF package
-            content has been on-boarded and absent otherwise.
+        name:
+          description: VNF Package Name
           type: string
-        vnfProductName:
-          description: |
-            Name to identify the VNF product. Invariant for the VNF product
-            ligetime. This information is copied from the VNFD. It shall be
-            present after the VNF package content has been on-boarded and
-            absent otherwise.
+        description:
+          description: VNF Package description
           type: string
-        vnfSoftwareVersion:
-          description: |
-            Software version of the VNF. This is changed when there is any
-            change to the software included in the VNF package. This
-            information is copied from the VNFD. It shall be present after the
-            VNF package content has been on-boarded and absent otherwise.
-          type: string
-        vnfdVersion:
-          description: |
-            The version of the VNFD. TSof information is copied from the VNFD.
-            It shall be present after the VNF package content has been
-            on-boarded and absent otherwise.
-          type: string
-        checksum:
-          description: |
-            Checksum of the on-boarded VNF package. It shall be present after
-            the VNF package content has been on-boarded and absent otherwise.
-          type: string
-        softwareImages:
-          description: |
-            Information about VNF package artifacts that are software images.
-            This attribute shall not be present before the VNF package content
-            is on-boarded. Otherwise, this attribute shall be present unless
-            it has been requested to be excluded per attribute selector.
-          type: array
-          items:
-            $ref: '#/components/schemas/VnfPackageSoftwareImageInfo'
-        additionalArtifacts:
-          description: |
-            Information about VNF package artifacts contained in the VNF
-            package that are not software images. This attribute shall not be
-            present before the VNF package content is on-boarded. Otherwise,
-            this attribute shall be present if the VNF package contains
-            additional artifacts.
-          type: array
-          items:
-            $ref: '#/components/schemas/VnfPackageArtifactInfo'
-        onboardingState:
-          description: |
-            On-boarding state of the VNF package.
-          $ref: '#components/schemas/VnfPackageOnboardingStateType'
-        operationalState:
-          description: |
-            Operational  state of the VNF package. If the value of the
-            onboardingState attribute is not equal to "ONBOARDED", the value
-            of the operationalState attribute shall be equal to "DISABLED".
-          $ref: '#components/schemas/VnfPackageOperationalStateType'
-        usageState:
-          description: |
-            Usage state of the VNF package. If the value of the
-            onboardingState attribute is not equal to "ONBOARDED", the value
-            of the usageState attribute shall be equal to "NOT_IN_USE".
-          $ref: '#components/schemas/VnfPackageUsageStateType'
-        userDefinedData:
-          description: |
-            User defined data for the VNF package
-          $ref: '#/components/schemas/KeyValuePairs'
-        _links:
-          description: |
-            Links to resources related to this resource
-          type: string
-        self:
-          description: |
-            URI of this resource
-          type: string
-          format: uri
         vnfd:
-          description: |
-            Link to the VNFD resource. This link shall be present after the VNF
-            package content is on-boarded. 
-          type: string
-          format: uri
-        package_content:
-          description: |
-            Link to the "VNF package content" resource.
-          type: string
-          format: uri
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/vnfd.html'
       required:
+        - _id
         - id
-        - onboardingState
-        - operationalState
-        - usageState
-        - _links
-        - self
-        - package_content
     ArrayOfVnfPkgInfo:
       type: array
       items:
         $ref: '#/components/schemas/VnfPkgInfo'
-    UploadVnfPackageFromUriRequest:
-      type: object
-      properties:
-        addressInformation:
-          description: |
-            Address information of the VNF package content. The NFVO can use
-            this address to obtain the VNF package.
-          type: string
-          format: uri
-        userName:
-          description: |
-            User name to be used for authentication. Shall be present if user
-            name is needed but has not been provisioned out of band.
-          type: string
-        password:
-          description: |
-            Password to be used for authentication. Shall be present if password
-            is needed but has not been provisioned out of band.
-          type: string
-      required:
-        - addressInformation
     CreateNsRequest:
       type: object
       properties:
@@ -1683,341 +3619,89 @@ components:
           description: |
             Human-readable description of the NS instance to be created.
           type: string
+        vimAccountId:
+          description: |
+            Identifier of the VIM Account where the NS instance shall be created.
+          type: string
+          format: uuid
       required:
         - nsdId
         - nsName
-        - nsDescription
-    NsStateType:
-      type: string
-      enum: [NOT_INSTANTIATED, INSTANTIATED]
-      description: |
-        State of the NS instance. Permitted values:
-         * `NOT_INSTANTIATED`: The NS instance is terminated or not instantiated.
-         * `INSTANTIATED`: The NS instance is instantiated.
+        - vimAccountId
     NsInstance:
+      description: |
+        NS Instance Information
+        Only generic fields (_id, id, name, description) are described
+        For a full specification of the NS Instance see:
+        http://osm-download.etsi.org/ftp/osm-doc/nsr.html
       type: object
       properties:
+        _id:
+          description: Identifier of the NS instance.
+          type: string
+          format: uuid
         id:
           description: Identifier of the NS instance.
           type: string
           format: uuid
-        nsInstanceName:
+        name:
           description: Human readable name of the NS instance.
           type: string
-        nsInstanceDescription:
+        description:
           description: Human readable description of the NS instance.
           type: string
-        nsdId:
-          description: Identifier of the NSD on which the NS instance is based.
-          type: string
-          format: uuid
-        flavourId:
-          description: |
-            Identifier of the NS deployment flavour applied to the NS instance.
-            This attribute shall be present if the nsState attribute value is
-            INSTANTIATED.
-          type: string
-        vnfInstance:
-          description: |
-            Information on constituent VNF(s) of the NS instance. If the
-            "nsState" attribute is INSTANTIATED, at least either one
-            "vnfInstance" attribute or one "nestedNsInstanceId" attribute shall
-            be present.
-          type: array
-          items:
-            $ref: '#/components/schemas/VnfInstance'
-        pnfInfo:
-          description: |
-            Information on the PNF(s) that are part of the NS instance.
-          type: array
-          items:
-            $ref: '#/components/schemas/PnfInfo'
-        virtualLinkInfo:
-          description: |
-            Information on the VL(s) of the NS instance. This attribute shall
-            be present if the nsState attribute value is INSTANTIATED and if
-            the NS instance has specified connectivity.
-          type: array
-          items:
-            $ref: '#/components/schemas/NsVirtualLinkInfo'
-        vnffgInfo:
-          description: |
-            Information on the VNFFG(s) of the NS instance.
-          type: array
-          items:
-            $ref: '#/components/schemas/VnffgInfo'
-        sapInfo:
-          description: |
-            Information on the SAP(s) of the NS instance.
-          type: array
-          items:
-            $ref: '#/components/schemas/SapInfo'
-        nestedNsInstanceId:
-          description: |
-            Identifier of the nested NS(s) of the NS instance. If the "nsState"
-            attribute is INSTANTIATED, at least either one "vnfInstance"
-            attribute or one "nestedNsInstanceId" attribute shall be present.
-          type: array
-          items:
-            type: string
-            format: uuid
-        nsState:
-          description: |
-            The state of the NS instance.
-          $ref: '#components/schemas/NsStateType'
-        nsScaleStatus:
-          description: |
-            Status of each NS scaling aspect declared in the applicable DF,
-            how "big" the NS instance has been scaled w.r.t. that aspect. This
-            attribute shall be present if the nsState attribute value is
-            INSTANTIATED.
-          type: array
-          items:
-            $ref: '#/components/schemas/NsScaleInfo'
-        additionalAffinityOrAntiAffinityRule:
-          description: |
-            Information on the additional affinity or anti-affinity rule from
-            NS instantiation operation. Shall not conflict with rules already
-            specified in the NSD.
-          type: array
-          items:
-            $ref: '#/components/schemas/AffinityOrAntiAffinityRule'
-        _links:
-          description: |
-            Links to resources related to this resource
-          type: string
-        self:
-          description: |
-            URI of this resource
-          type: string
-          format: uri
-        nestedNsInstances:
-          description: |
-            Links to the nested NS instances of the present NS instance.
-          type: array
-          items:
-            type: string
-            format: uri
-        instantiate:
-          description: |
-            Link to the "instantiate" task resource, if the related operation
-            is possible based on the current status of this NS instance
-            resource (i.e. NS instance in NOT_INSTANTIATED state).
-          type: string
-          format: uri
-        terminate:
-          description: |
-            Link to the "terminate" task resource, if the related operation is
-            possible based on the current status of this NS instance resource
-            (i.e. NS instance is in INSTANTIATED state).
-          type: string
-          format: uri
-        update:
-          description: |
-            Link to the "update" task resource, if the related operation is
-            possible based on the current status of this NS instance resource
-            (i.e. NS instance is in INSTANTIATED state).
-          type: string
-          format: uri
-        scale:
-          description: |
-            Link to the "scale" task resource, if the related operation is
-            supported for this NS instance, and is possible based on the
-            current status of this NS instance resource (i.e. NS instance is in
-            INSTANTIATED state).
-          type: string
-          format: uri
-        heal:
-          description: |
-            Link to the "heal" task resource, if the related operation is
-            supported for this NS instance, and is possible based on the
-            current status of this NS instance resource (i.e. NS instance is in
-            INSTANTIATED state).
-          type: string
-          format: uri
+        nsr:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsr.html'
       required:
+        - _id
         - id
-        - nsInstanceName
-        - nsInstanceDescription
-        - nsdId
-        - nsdInfoId
-        - nsState
-        - _links
-        - self
-    VnfInstance:
-      type: object
-      additionalProperties: true
-    PnfInfo:
-      type: object
-      additionalProperties: true
-    NsVirtualLinkInfo:
-      type: object
-      additionalProperties: true
-    VnffgInfo:
-      type: object
-      additionalProperties: true
-    SapInfo:
-      type: object
-      additionalProperties: true
-    NsScaleInfo:
-      type: object
-      additionalProperties: true
-    AffinityOrAntiAffinityRule:
-      type: object
-      additionalProperties: true
-    SapData:
-      type: object
-      additionalProperties: true
-    AddPnfData:
-      type: object
-      additionalProperties: true
-    VnfInstanceData:
-      type: object
-      additionalProperties: true
-    VnfLocationConstraint:
-      type: object
-      additionalProperties: true
-    ParamsForVnf:
-      type: object
-      additionalProperties: true
+        - name
     InstantiateNsRequest:
       type: object
       properties:
-        nsFlavourId:
-          description: Identifier of the NS deployment flavour to be instantiated.
+        nsName:
+          description: |
+            Human-readable name of the NS instance to be created.
           type: string
-        sapData:
-          description: Create data concerning the SAPs of this NS.
-          type: array
-          items:
-            $ref: '#/components/schemas/SapData'
-        addpnfData:
-          description: Information on the PNF(s) that are part of this NS.
-          type: array
-          items:
-            $ref: '#/components/schemas/AddPnfData'
-        vnfInstanceData:
+        nsdId:
           description: |
-            Specify an existing VNF instance to be used in the NS. If needed,
-            the VNF Profile to be used for this VNF instance is also provided.
-          type: array
-          items:
-            $ref: '#/components/schemas/VnfInstanceData'
-        nestedNsInstanceId:
-          description: |
-            Specify an existing NS instance to be used as a nested NS within the NS.
-          type: array
-          items:
-            type: string
-            format: uuid
-        localizationLanguage:
-          description: |
-            Defines the location constraints for the VNF to be instantiated as part of
-            the NS instantiation. An example can be a constraint for the VNF to be in a
-            specific geographic location.
-          type: array
-          items:
-            $ref: '#/components/schemas/VnfLocationConstraint'
-        additionalParamsForNs:
-          description: |
-            Allows the OSS/BSS to provide additional parameter(s) at the NS level
-            (as opposed to the VNF level, which is covered in additionalParamsForVnf).
-          $ref: '#/components/schemas/KeyValuePairs'
-        additionalParamsForVnf:
-          description: |
-            Allows the OSS/BSS to provide additional parameter(s) per VNF instance
-            (as opposed to the NS level, which is covered in additionalParamsForNs).
-            This is for VNFs that are to be created by the NFVO as part of the NS
-            instantiation and not for existing VNF that are referenced for reuse.
-          type: array
-          items:
-            $ref: '#/components/schemas/ParamsForVnf'
-        startTime:
-          description: |
-            Timestamp indicating the earliest time to instantiate the NS.
-            Cardinality "0" indicates the NS instantiation takes place immediately.
+            Identifier of the NSD that defines the NS instance to be created.
           type: string
-          format: date-time
-        nsInstantiationLevelId:
+          format: uuid
+        vimAccountId:
           description: |
-            Identifies one of the NS instantiation levels declared in the DF applicable
-            to this NS instance. If not present, the default NS instantiation level as
-            declared in the NSD shall be used.
+            Identifier of the VIM Account where the NS instance shall be created.
           type: string
-        additionalAffinityOrAntiAffiniityRule:
-          description: |
-            Specifies additional affinity or anti-affinity constraint for the VNF instances
-            to be instantiated as part of the NS instantiation. Shall not conflict with rules
-            already specified in the NSD.
-          type: array
-          items:
-            $ref: '#/components/schemas/AffinityOrAntiAffinityRule'
+          format: uuid
       required:
-        - nsFlavourId
-    UpdateNsRequest:
-      type: object
-      properties:
-        updateType:
-          type: string
-          enum: [ ADD_VNF, REMOVE_VNF, INSTANTIATE_VNF, CHANGE_VNF_DF,
-                  OPERATE_VNF, MODIFY_VNF_INFORMATION, CHANGE_EXTERNAL_VNF_CONNECTIVITY,
-                  REMOVE_SAP, ADD_NESTED_NS, REMOVE_NESTED_NS, ASSOC_NEW_NSD_VERSION,
-                  MOVE_VNF, ADD_VNFFG, REMOVE_VNFFG, UPDATE_VNFFG, CHANGE_NS_DF, ADD_PNF,
-                  MODIFY_PNF, REMOVE_PNF ]
-          description: |
-            The type of update. It determines also which one of the following parameters
-            is present in the operation. Possible values include:
-             * `ADD_VNF`: Adding existing VNF instance(s)
-             * `REMOVE_VNF`: Removing VNF instance(s)
-             * `INSTANTIATE_VNF`: Instantiating new VNF(s)
-             * `CHANGE_VNF_DF`: Changing VNF DF
-             * `OPERATE_VNF`: Changing VNF state,
-             * `MODIFY_VNF_INFORMATION`: Modifying VNF information and/or the configurable
-             properties of VNF instance(s)
-             * `CHANGE_EXTERNAL_VNF_CONNECTIVITY`: Changing the external connectivity of VNF
-             instance(s)
-             * `ADD_SAP`: Adding SAP(s)
-             * `REMOVE_SAP`: Removing SAP(s)
-             * `ADD_NESTED_NS`: Adding existing NS instance(s) as nested NS(s)
-             * `REMOVE_NESTED_NS`: Removing existing nested NS instance(s)
-             * `ASSOC_NEW_NSD_VERSION`: Associating a new NSD version to the NS instance
-             * `MOVE_VNF`: Moving VNF instance(s) from one origin NS instance to another target NS
-             instance
-             * `ADD_VNFFG`: Adding VNFFG(s)
-             * `REMOVE_VNFFG`: Removing VNFFG(s)
-             * `UPDATE_VNFFG`: Updating VNFFG(s)
-             * `CHANGE_NS_DF`: Changing NS DF
-             * `ADD_PNF`: Adding PNF
-             * `MODIFY_PNF`: Modifying PNF
-             * `REMOVE_PNF`: Removing PNF
-      # Specific properties are required for each updateType. Pending to be added.
-      additionalProperties: true
-      required:
-        - updateType
+        - nsName
+        - nsdId
+        - vimAccountId
     ScaleNsRequest:
       type: object
-      additionalProperties: true
-    HealNsData:
-      type: object
-      additionalProperties: true
-    HealVnfData:
-      type: object
-      additionalProperties: true
-    HealNsRequest:
-      type: object
       properties:
-        healNsData:
-          description: |
-            Provides the information needed to heal an NS. Either the parameter healNsData
-            or the parameter healVnfData, but not both shall be provided.
-          $ref: '#/components/schemas/HealNsData'
-        healVnfData:
-          description: |
-            Provides the information needed to heal a VNF. Either the parameter healNsData
-            or the parameter healVnfData, but not both shall be provided.
-          type: array
-          items:
-            $ref: '#/components/schemas/HealVnfData'
+        scaleType:
+          type: string
+          enum:
+            - SCALE_VNF
+        scaleVnfData:
+          type: object
+          properties:
+            scaleVnfType:
+              type: string
+              enum:
+                - SCALE_IN
+                - SCALE_OUT
+            scaleByStepData:
+              type: object
+              properties:
+                scaling-group-descriptor:
+                  type: string
+                member-vnf-index:
+                  type: string
+              additionalProperties: true
+          additionalProperties: true
+      additionalProperties: true
     TerminateNsRequest:
       type: object
       properties:
@@ -2032,6 +3716,382 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/NsInstance'
+    NSinstanceActionRequest:
+      type: object
+      properties:
+        primitive:
+          type: string
+        primitive_params:
+          $ref: '#/components/schemas/KeyValuePairs'
+        lcmOperationType:
+          type: string
+        nsInstanceId:
+          type: string
+          format: uuid
+        member_vnf_index:
+          type: string
+        vdu_id:
+          type: string
+        vdu_count_index:
+          type: integer
+      required:
+        - primitive
+        - primitive_params
+      additionalProperties: false
+    CreateNSinstanceContentRequest:
+      type: object
+      properties:
+        nsdId:
+          description: |
+            Identifier of the NSD that defines the NS instance to be created.
+          type: string
+          format: uuid
+        nsName:
+          description: |
+            Human-readable name of the NS instance to be created.
+          type: string
+        vimAccountId:
+          description: |
+            Identifier of the VIM Account where the NS instance shall be created.
+          type: string
+          format: uuid
+      required:
+        - nsdId
+        - nsName
+        - vimAccountId
+    CreateNSinstanceContentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nslcmop_id:
+          type: string
+          format: uuid
+    NsLcmOpOcc:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        id:
+          type: string
+          format: uuid
+        lcmOperationType:
+          type: string
+        nsInstanceId:
+          type: string
+          format: uuid
+        isAutomaticInvocation:
+          type: boolean
+        isCancelPending:
+          type: boolean
+        startTime:
+          type: number
+          format: float
+        statusEnteredTime:
+          type: number
+          format: float
+        operationParams:
+          type: object
+          properties:
+            nsName:
+              type: string
+            nsdId:
+              type: string
+              format: uuid
+            vimAccountId:
+              type: string
+              format: uuid
+            nsInstanceId:
+              type: string
+              format: uuid
+            lcmOperationType:
+              type: string
+        operationState:
+          type: string
+        detailed-status:
+          type: string
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: path   # uri?
+            nsInstance:
+              type: string
+              format: path   # uri?
+    ArrayOfNsLcmOpOcc:
+      type: array
+      items:
+        $ref: '#/components/schemas/NsLcmOpOcc'
+    VnfInstanceInfo:
+      description: |
+        VNF Instance Information
+        Only generic fields (_id, id) are described
+        For a full specification of the VNF Instance see:
+        http://osm-download.etsi.org/ftp/osm-doc/vnfr.html
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        id:
+          type: string
+          format: uuid
+        vnfr:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/vnfr.html'
+    ArrayOfVnfInstanceInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/VnfInstanceInfo'
+    NstInfo:
+      description: |
+        NetSlice Template Information
+        Only generic fields (_id, id, name) are described
+        For a full specification of the NetSlice Template see:
+        http://osm-download.etsi.org/ftp/osm-doc/nst.html
+      type: object
+      properties:
+        _id:
+          description: NetSlice Template Identifier
+          type: string
+          format: uuid
+        id:
+          description: Human readable NetSlice Template Identifier
+          type: string
+        name:
+          description: Human readable name of the NetSlice Template
+          type: string
+        nst:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nst.html'
+    ArrayOfNstInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/NstInfo'
+    CreateNstInfoRequest:
+      # A free list of key:value pairs
+      type: object
+      additionalProperties: true
+    NetSliceTemplate:
+      type: string
+      format: yaml|json
+    NetSlicePackage:
+      type: string
+      format: binary
+    NstInfoModifications:
+      description: |
+        NetSlice Template Information
+        Only generic fields (id, name) are described
+        For a full specification of the NetSlice Template see:
+        http://osm-download.etsi.org/ftp/osm-doc/nst.html
+      type: object
+      properties:
+        id:
+          description: NST Identifier
+          type: string
+        name:
+          description: NST Name
+          type: string
+        nsd:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nst.html'
+    NetSliceInstance:
+      description: |
+        NetSlice Instance Information
+        Only generic fields (_id, id, name, description) are described
+        For a full specification of the NetSlice Instance see:
+        http://osm-download.etsi.org/ftp/osm-doc/nsi.html
+      type: object
+      properties:
+        _id:
+          description: Identifier of the NetSlice instance.
+          type: string
+          format: uuid
+        id:
+          description: Identifier of the NetSlice instance.
+          type: string
+          format: uuid
+        name:
+          description: Human readable name of the NetSlice instance.
+          type: string
+        description:
+          description: Human readable description of the NetSlice instance.
+          type: string
+        nsi:
+          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsi.html'
+      required:
+        - _id
+        - id
+        - name
+    ArrayOfNetSliceInstance:
+      type: array
+      items:
+        $ref: '#/components/schemas/NetSliceInstance'
+    CreateNsiRequest:
+      type: object
+      properties:
+        nstId:
+          description: |
+            Identifier of the NST that defines the NetSlice instance to be created.
+          type: string
+          format: uuid
+        nsiName:
+          description: |
+            Human-readable name of the NetSlice instance to be created.
+          type: string
+        nsiDescription:
+          description: |
+            Human-readable description of the NetSlice instance to be created.
+          type: string
+        vimAccountId:
+          description: |
+            Identifier of the VIM Account where the NetSlice instance shall be created.
+          type: string
+          format: uuid
+      required:
+        - nstId
+        - nsiName
+        - vimAccountId
+    InstantiateNsiRequest:
+      type: object
+      properties:
+        nsiName:
+          description: |
+            Human-readable name of the NetSlice instance to be created.
+          type: string
+        nstId:
+          description: |
+            Identifier of the NST that defines the NetSlice instance to be created.
+          type: string
+          format: uuid
+        vimAccountId:
+          description: |
+            Identifier of the VIM Account where the NetSlice instance shall be created.
+          type: string
+          format: uuid
+      required:
+        - nsiName
+        - nstId
+        - vimAccountId
+    TerminateNsiRequest:
+      type: object
+      properties:
+        terminationTime:
+          description: |
+            Timestamp indicating the end time of the NSI, i.e. the NSI will be terminated
+            automatically at this timestamp. Cardinality "0" indicates the NSI termination
+            takes place immediately.
+          type: string
+          format: date-time
+    NsiActionRequest:
+      type: object
+      properties:
+        primitive:
+          type: string
+        primitive_params:
+          $ref: '#/components/schemas/KeyValuePairs'
+        lcmOperationType:
+          type: string
+        netsliceInstanceId:
+          type: string
+          format: uuid
+      required:
+        - primitive
+        - primitive_params
+    CreateNsiContentRequest:
+      type: object
+      properties:
+        nstId:
+          description: |
+            Identifier of the NST that defines the NetSlice instance to be created.
+          type: string
+          format: uuid
+        nsiName:
+          description: |
+            Human-readable name of the NetSlice instance to be created.
+          type: string
+        vimAccountId:
+          description: |
+            Identifier of the VIM Account where the NetSlice instance shall be created.
+          type: string
+          format: uuid
+      required:
+        - nsdId
+        - nsName
+        - vimAccountId
+    CreateNsiContentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nsilcmop_id:
+          type: string
+          format: uuid
+    NsiLcmOpOcc:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        id:
+          type: string
+          format: uuid
+        lcmOperationType:
+          type: string
+        netsliceInstanceId:
+          type: string
+          format: uuid
+        isAutomaticInvocation:
+          type: boolean
+        isCancelPending:
+          type: boolean
+        startTime:
+          type: number
+          format: float
+        statusEnteredTime:
+          type: number
+          format: float
+        operationParams:
+          type: object
+          properties:
+            nsiName:
+              type: string
+            nstId:
+              type: string
+              format: uuid
+            vimAccountId:
+              type: string
+              format: uuid
+            netsliceInstanceId:
+              type: string
+              format: uuid
+            lcmOperationType:
+              type: string
+            nslcmops_ids:
+              type: array
+              items:
+                type: string
+                format: uuid
+        operationState:
+          type: string
+        detailed-status:
+          type: string
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              format: path   # uri?
+            netsliceInstanceId:
+              type: string
+              format: path   # uri?
+    ArrayOfNsiLcmOpOcc:
+      type: array
+      items:
+        $ref: '#/components/schemas/NsiLcmOpOcc'
+  # END SCHEMAS
+
   requestBodies:
     CreateNsdInfoRequest:
       content:
@@ -2049,11 +4109,13 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/NsdInfoModifications'
-    NsdContent:
+    NsDescriptor:
       content:
         text/plain:
           schema:
             $ref: '#/components/schemas/NsDescriptor'
+    NsPackage:
+      content:
         application/zip:
           schema:
             $ref: '#/components/schemas/NsPackage'
@@ -2078,14 +4140,11 @@ components:
         application/zip:
           schema:
             $ref: '#/components/schemas/VnfPackage'
-    UploadVnfPackageFromUriRequest:
+    VnfDescriptor:
       content:
-        application/json:
+        text/plain:
           schema:
-            $ref: '#/components/schemas/UploadVnfPackageFromUriRequest'
-        application/yaml:
-          schema:
-            $ref: '#/components/schemas/UploadVnfPackageFromUriRequest'
+            $ref: '#/components/schemas/VnfDescriptor'
     CreateNsRequest:
       content:
         application/json:
@@ -2110,22 +4169,6 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/ScaleNsRequest'
-    UpdateNsRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UpdateNsRequest'
-        application/yaml:
-          schema:
-            $ref: '#/components/schemas/UpdateNsRequest'
-    HealNsRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HealNsRequest'
-        application/yaml:
-          schema:
-            $ref: '#/components/schemas/HealNsRequest'
     TerminateNsRequest:
       content:
         application/json:
@@ -2134,9 +4177,83 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/TerminateNsRequest'
+    CreateNSinstanceContentRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateNSinstanceContentRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateNSinstanceContentRequest'
+    CreateNstInfoRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateNstInfoRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateNstInfoRequest'
+    NetSliceTemplate:
+      content:
+        text/plain:
+          schema:
+            $ref: '#/components/schemas/NetSliceTemplate'
+    NetSlicePackage:
+      content:
+        application/zip:
+          schema:
+            $ref: '#/components/schemas/NetSlicePackage'
+    NstInfoModifications:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NstInfoModifications'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/NstInfoModifications'
+    CreateNsiRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateNsiRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateNsiRequest'
+    InstantiateNsiRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InstantiateNsiRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/InstantiateNsiRequest'
+    TerminateNsiRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TerminateNsiRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/TerminateNsiRequest'
+    NsiActionRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NsiActionRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/NsiActionRequest'
+    CreateNsiContentRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateNsiContentRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateNsiContentRequest'
+  # END REQUEST BODIES
+
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
-
-
