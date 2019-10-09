@@ -5,10 +5,9 @@ servers:
 info:
   description: |
     This is Open Source MANO Northbound API featuring ETSI NFV SOL005.
-    For more information on OSM, you can visit
-    [http://osm.etsi.org](http://osm.etsi.org) or connect to IRCs
-    [Freenode, #etsi-osm](http://webchat.freenode.net?channels=etsi-osm) or on
-    [OSM IRC, #tech](https://osm.etsi.org:8080/kiwi)
+    For more information on OSM, you can visit [http://osm.etsi.org](http://osm.etsi.org).
+    You can send us your comments and questions to OSM_TECH@list.etsi.org
+    or join the [OpenSourceMANO Slack Workplace](https://join.slack.com/t/opensourcemano/shared_invite/enQtMzQ3MzYzNTQ0NDIyLWVkNTE4ZjZjNWI0ZTQyN2VhOTI1MjViMzU1NWYwMWM3ODI4NTQyY2VlODA2ZjczMWIyYTFkZWNiZmFkM2M2ZDk)
   version: "1.0.0"
   title: OSM NB API featuring ETSI NFV SOL005
   contact:
