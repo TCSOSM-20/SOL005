@@ -3481,8 +3481,6 @@ components:
         description:
           description: NSD Description
           type: string
-        nsd:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsd.html'
     NsdInfo:
       description: |
         NS Descriptor Information
@@ -3515,8 +3513,6 @@ components:
             Description of the onboarded NSD.
             This information is copied from the NSD content.
           type: string
-        nsd:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsd.html'
       required:
         - _id
         - id
@@ -3570,8 +3566,6 @@ components:
         description:
           description: VNF Package description
           type: string
-        vnfd:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/vnfd.html'
     VnfPkgInfo:
       description: |
         VNF Package Information
@@ -3594,8 +3588,6 @@ components:
         description:
           description: VNF Package description
           type: string
-        vnfd:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/vnfd.html'
       required:
         - _id
         - id
@@ -3650,8 +3642,6 @@ components:
         description:
           description: Human readable description of the NS instance.
           type: string
-        nsr:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsr.html'
       required:
         - _id
         - id
@@ -3839,8 +3829,6 @@ components:
         id:
           type: string
           format: uuid
-        vnfr:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/vnfr.html'
     ArrayOfVnfInstanceInfo:
       type: array
       items:
@@ -3863,8 +3851,6 @@ components:
         name:
           description: Human readable name of the NetSlice Template
           type: string
-        nst:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nst.html'
     ArrayOfNstInfo:
       type: array
       items:
@@ -3893,8 +3879,6 @@ components:
         name:
           description: NST Name
           type: string
-        nsd:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nst.html'
     NetSliceInstance:
       description: |
         NetSlice Instance Information
@@ -3917,8 +3901,6 @@ components:
         description:
           description: Human readable description of the NetSlice instance.
           type: string
-        nsi:
-          $ref: 'http://osm-download.etsi.org/ftp/osm-doc/nsi.html'
       required:
         - _id
         - id
