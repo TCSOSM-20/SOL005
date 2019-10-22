@@ -29,12 +29,12 @@ tags:
     description: Management operations of NetSlice Templates
   - name: 'NetSlice instances'
     description: Management operations of NetSlice Instances
-# - name: 'NSPM'
-#   description: Management operations of NSPMs
-# - name: 'PDU'
-#   description: Management operations of PDUs
-# - name: 'Admin'
-#   description: Management operations of Administration items
+  - name: 'NSPM'
+    description: Management operations of NSPMs
+  - name: 'PDU'
+    description: Management operations of PDUs
+  - name: 'Admin'
+    description: Management operations of Administration items
 
 security:
   - bearerAuth: []
@@ -137,7 +137,7 @@ paths:
         required: true
         description: NSD Info ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS packages"
@@ -253,7 +253,7 @@ paths:
         required: true
         description: NSD Info ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS packages"
@@ -345,13 +345,13 @@ paths:
         required: true
         description: NS Package ID
         schema:
-          type : string
+          type: string
       - name: artifactPath
         in: path
         required: true
         description: Artifact Path
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS packages"
@@ -408,7 +408,7 @@ paths:
         required: true
         description: NS Package ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS packages"
@@ -559,7 +559,7 @@ paths:
         required: true
         description: NS Package ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS packages"
@@ -766,7 +766,7 @@ paths:
         required: true
         description: VNF Package ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "VNF packages"
@@ -882,7 +882,7 @@ paths:
         required: true
         description: VNF Package ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "VNF packages"
@@ -927,7 +927,7 @@ paths:
         required: true
         description: VNF Package ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "VNF packages"
@@ -1022,13 +1022,13 @@ paths:
         required: true
         description: VNF Package ID
         schema:
-          type : string
+          type: string
       - name: artifactPath
         in: path
         required: true
         description: Artifact Path
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "VNF packages"
@@ -1191,7 +1191,7 @@ paths:
         required: true
         description: VNF Package Content ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "VNF packages"
@@ -1351,7 +1351,7 @@ paths:
       description: Create a new NS instance resource
       operationId: addNSinstance
       requestBody:
-        $ref: '#/components/requestBodies/CreateNsRequest'
+        $ref: '#/components/requestBodies/InstantiateNsRequest'
       responses:
         '201':
           description: Created
@@ -1398,7 +1398,7 @@ paths:
         required: true
         description: NS Instance ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS instances"
@@ -1479,7 +1479,7 @@ paths:
         required: true
         description: NS Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NS instances"
@@ -1542,7 +1542,7 @@ paths:
         required: true
         description: NS Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NS instances"
@@ -1598,7 +1598,7 @@ paths:
         required: true
         description: NS Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NS instances"
@@ -1662,7 +1662,7 @@ paths:
         required: true
         description: NS Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NS instances"
@@ -1769,7 +1769,7 @@ paths:
       description: Create a new NS instance
       operationId: createNSinstanceContent
       requestBody:
-        $ref: '#/components/requestBodies/CreateNSinstanceContentRequest'
+        $ref: '#/components/requestBodies/InstantiateNsRequest'
       responses:
         '201':
           description: Created
@@ -1816,7 +1816,7 @@ paths:
         required: true
         description: NS Instance Content ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS instances"
@@ -1947,7 +1947,7 @@ paths:
         required: true
         description: NS LCM Operation Occurrence ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS instances"
@@ -2036,7 +2036,7 @@ paths:
         required: true
         description: VNF Instance ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NS instances"
@@ -2175,7 +2175,7 @@ paths:
         required: true
         description: NetSlice Template ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice templates"
@@ -2256,13 +2256,13 @@ paths:
         required: true
         description: NetSlice Template ID
         schema:
-          type : string
+          type: string
       - name: artifactPath
         in: path
         required: true
         description: Artifact Path
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice templates"
@@ -2319,7 +2319,7 @@ paths:
         required: true
         description: NetSlice Template ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice templates"
@@ -2364,7 +2364,7 @@ paths:
         required: true
         description: NetSlice Template ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice templates"
@@ -2562,7 +2562,7 @@ paths:
         required: true
         description: NetSlice Template ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice templates"
@@ -2722,7 +2722,7 @@ paths:
       description: Create a new NetSlice instance resource
       operationId: addNSI
       requestBody:
-        $ref: '#/components/requestBodies/CreateNsiRequest'
+        $ref: '#/components/requestBodies/InstantiateNsiRequest'
       responses:
         '201':
           description: Created
@@ -2769,7 +2769,7 @@ paths:
         required: true
         description: NetSlice Instance ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice instances"
@@ -2850,7 +2850,7 @@ paths:
         required: true
         description: NetSlice Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NetSlice instances"
@@ -2913,7 +2913,7 @@ paths:
         required: true
         description: NetSlice Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NetSlice instances"
@@ -2977,7 +2977,7 @@ paths:
         required: true
         description: NetSlice Instance ID
         schema:
-          type : string
+          type: string
     post:
       tags:
         - "NetSlice instances"
@@ -3084,7 +3084,7 @@ paths:
       description: Create a new NetSlice instance
       operationId: createNSIContent
       requestBody:
-        $ref: '#/components/requestBodies/CreateNsiContentRequest'
+        $ref: '#/components/requestBodies/InstantiateNsiRequest'
       responses:
         '201':
           description: Created
@@ -3131,7 +3131,7 @@ paths:
         required: true
         description: NetSlice Instance Content ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice instances"
@@ -3262,7 +3262,7 @@ paths:
         required: true
         description: NetSlice LCM Operation Occurrence ID
         schema:
-          type : string
+          type: string
     get:
       tags:
         - "NetSlice instances"
@@ -3306,35 +3306,2302 @@ paths:
 # END NetSlice Instances
 
 # BEGIN NSPM
-  # /nspm/v1/pm_jobs/{pmJobId}/reports/{reportId}
+  '/nspm/v1/pm_jobs/{pmJobId}/reports/{nsId}':
+    parameters:
+      - name: pmJobId
+        in: path
+        required: true
+        description: NS PM Job ID
+        schema:
+          type: string
+      - name: nsId
+        in: path
+        required: true
+        description: NS ID
+        schema:
+          type: string
+    get:
+      tags:
+        - "NSPM"
+      summary: Query information about an individual NS PM Job Report
+      description: Query information about an individual NS PM Job Report
+      operationId: getNsPmJobReport
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NsPmJobReportInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/NsPmJobReportInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 # END NSPM
 
 # BEGIN PDU
-  # /pdu/v1/pdu_descriptors
-  # /pdu/v1/pdu_descriptors/{pduDescriptorId}
+  '/pdu/v1/pdu_descriptors':
+    get:
+      tags:
+        - "PDU"
+      summary: Query information about multiple PDU Descriptors
+      description: Query information about multiple PDU Descriptors
+      operationId: getPDUs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfPduInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfPduInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "PDU"
+      summary: Create a new PDU
+      description: Create a new PDU Descriptor
+      operationId: createPDU
+      requestBody:
+        $ref: '#/components/requestBodies/CreatePduRequest'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/pdu/v1/pdu_descriptors/{pduDescriptorId}':
+    parameters:
+      - name: pduDescriptorId
+        in: path
+        required: true
+        description: PDU Descriptor ID
+        schema:
+          type: string
+    get:
+      tags:
+        - "PDU"
+      summary: Query information about an individual PDU Descriptor
+      description: Query information about an individual PDU Descriptor
+      operationId: getPDU
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PduInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/PduInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "PDU"
+      summary: Modify an individual PDU Descriptor
+      description: Modify an individual PDU Descriptor
+      operationId: editPDU
+      requestBody:
+        $ref: '#/components/requestBodies/EditPduRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "PDU"
+      summary: Delete an individual PDU Descriptor
+      description: Delete an individual PDU Descriptor
+      operationId: deletePDU
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 # END PDU
 
 # BEGIN Admin
-  # /admin/v1/tokens
-  # /admin/v1/tokens/{tokenId}
-  # /admin/v1/users
-  # /admin/v1/users/{userId}
-  # /admin/v1/projects
-  # /admin/v1/projects/{projectId}
-  # /admin/v1/roles
-  # /admin/v1/roles/{roleId}
-  # /admin/v1/vims
-  # /admin/v1/vims/{vimId}
-  # /admin/v1/vim_accounts
-  # /admin/v1/vim_accounts/{vimAccountId}
-  # /admin/v1/wim_accounts
-  # /admin/v1/wim_accounts/{wimAccountId}
-  # /admin/v1/sdns
-  # /admin/v1/sdns/{sdnId}
+  '/admin/v1/tokens':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple Tokens
+      description: Query information about multiple Tokens
+      operationId: getTokens
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfTokenInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfTokenInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Request a new Token
+      description: Request a new Token
+      operationId: createToken
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTokenRequest'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/TokenInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete the Token indicated in the Authorization Header
+      description: Delete the Token indicated in the Authorization Header
+      operationId: deleteAuthToken
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+            application/yaml:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/tokens/{tokenId}':
+    parameters:
+      - name: tokenId
+        in: path
+        required: true
+        description: Token ID
+        schema:
+          type: string
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual Token
+      description: Query information about an individual Token
+      operationId: getToken
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/TokenInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete the Token indicated as parameter
+      description: Delete the Token indicated as parameter
+      operationId: deleteToken
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+            application/yaml:
+              schema:
+                type: string
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/users':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple Users
+      description: Query information about multiple Users
+      operationId: getUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfUserInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfUserInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new User
+      description: Create a new User
+      operationId: createUser
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUserRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/users/{userId}':
+    parameters:
+      - name: userId
+        in: path
+        required: true
+        description: User ID/Name
+        schema:
+          type: string
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual User
+      description: Query information about an individual User
+      operationId: getUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/UserInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a User
+      description: Modify a User
+      operationId: editUser
+      requestBody:
+        $ref: '#/components/requestBodies/EditUserRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a User
+      description: Delete a User
+      operationId: deleteUser
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/projects':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple Projects
+      description: Query information about multiple Projects
+      operationId: getProjects
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfProjectInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfProjectInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new Project
+      description: Create a new Project
+      operationId: createProject
+      requestBody:
+        $ref: '#/components/requestBodies/CreateProjectRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/projects/{projectId}':
+    parameters:
+      - name: projectId
+        in: path
+        required: true
+        description: Project ID/Name
+        schema:
+          type: string
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual Project
+      description: Query information about an individual Project
+      operationId: getProject
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ProjectInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a Project
+      description: Modify a Project
+      operationId: editProject
+      requestBody:
+        $ref: '#/components/requestBodies/EditProjectRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a Project
+      description: Delete a Project
+      operationId: deleteProject
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/roles':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple Roles
+      description: Query information about multiple Roles
+      operationId: getRoles
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfRoleInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfRoleInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new Role
+      description: Create a new Role
+      operationId: createRole
+      requestBody:
+        $ref: '#/components/requestBodies/CreateRoleRequest'
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+                format: uri
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/roles/{roleId}':
+    parameters:
+      - name: roleId
+        in: path
+        required: true
+        description: Role ID/Name
+        schema:
+          type: string
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual Role
+      description: Query information about an individual Role
+      operationId: getRole
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/RoleInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a Role
+      description: Modify a Role
+      operationId: editRole
+      requestBody:
+        $ref: '#/components/requestBodies/EditRoleRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a Role
+      description: Delete a Role
+      operationId: deleteRole
+      responses:
+        '204':
+          description: No Content
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/vims':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple VIMs
+      description: Query information about multiple VIMs
+      operationId: getVIMs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVimInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVimInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new VIM
+      description: Create a new VIM
+      operationId: createVIM
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVimRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/vims/{vimId}':
+    parameters:
+      - name: vimId
+        in: path
+        required: true
+        description: VIM ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual VIM
+      description: Query information about an individual VIM
+      operationId: getVIM
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VimInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VimInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a VIM
+      description: Modify a VIM
+      operationId: editVIM
+      requestBody:
+        $ref: '#/components/requestBodies/EditVimRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a VIM
+      description: Delete a VIM
+      operationId: deleteVIM
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/vim_accounts':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple VIM Accounts
+      description: Query information about multiple VIM Accounts
+      operationId: getVimAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVimInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfVimInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new VIM Account
+      description: Create a new VIM Account
+      operationId: createVimAccount
+      requestBody:
+        $ref: '#/components/requestBodies/CreateVimRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/vim_accounts/{vimAccountId}':
+    parameters:
+      - name: vimAccountId
+        in: path
+        required: true
+        description: VIM Account ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual VIM Account
+      description: Query information about an individual VIM Account
+      operationId: getVimAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VimInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/VimInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a VIM Account
+      description: Modify a VIM Account
+      operationId: editVimAccount
+      requestBody:
+        $ref: '#/components/requestBodies/EditVimRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a VIM Account
+      description: Delete a VIM Account
+      operationId: deleteVimAccount
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/wim_accounts':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple WIM Accounts
+      description: Query information about multiple WIM Accounts
+      operationId: getWimAccounts
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfWimInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfWimInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new WIM Account
+      description: Create a new WIM Account
+      operationId: createWimAccount
+      requestBody:
+        $ref: '#/components/requestBodies/CreateWimRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/wim_accounts/{wimAccountId}':
+    parameters:
+      - name: wimAccountId
+        in: path
+        required: true
+        description: WIM Account ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual WIM Account
+      description: Query information about an individual WIM Account
+      operationId: getWimAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WimInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/WimInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a WIM Account
+      description: Modify a WIM Account
+      operationId: editWimAccount
+      requestBody:
+        $ref: '#/components/requestBodies/EditWimRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a WIM Account
+      description: Delete a WIM Account
+      operationId: deleteWimAccount
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/sdns':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple SDNs
+      description: Query information about multiple SDNs
+      operationId: getSDNs
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfSdnInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfSdnInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new SDN
+      description: Create a new SDN
+      operationId: createSDN
+      requestBody:
+        $ref: '#/components/requestBodies/CreateSdnRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/sdns/{sdnId}':
+    parameters:
+      - name: sdnId
+        in: path
+        required: true
+        description: SDN ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual SDN
+      description: Query information about an individual SDN
+      operationId: getSDN
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SdnInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/SdnInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a SDN
+      description: Modify a SDN
+      operationId: editSDN
+      requestBody:
+        $ref: '#/components/requestBodies/EditSdnRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a SDN
+      description: Delete a SDN
+      operationId: deleteSDN
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/k8sclusters':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple K8s Clusters
+      description: Query information about multiple K8s Clusters
+      operationId: getK8sClusters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfK8sClusterInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfK8sClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new K8s Cluster
+      description: Create a new K8s Cluster
+      operationId: createK8sCluster
+      requestBody:
+        $ref: '#/components/requestBodies/CreateK8sClusterRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/k8sclusters/{k8sClusterId}':
+    parameters:
+      - name: k8sClusterId
+        in: path
+        required: true
+        description: K8s Cluster ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual K8s Cluster
+      description: Query information about an individual K8s Cluster
+      operationId: getK8sCluster
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/K8sClusterInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/K8sClusterInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    patch:
+      tags:
+        - "Admin"
+      summary: Modify a K8s Cluster
+      description: Modify a K8s Cluster
+      operationId: editK8sCluster
+      requestBody:
+        $ref: '#/components/requestBodies/EditK8sClusterRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a K8s Cluster
+      description: Delete a K8s Cluster
+      operationId: deleteK8sCluster
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/k8srepos':
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about multiple K8s Repos
+      description: Query information about multiple K8s Repos
+      operationId: getK8sRepos
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfK8sRepoInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ArrayOfK8sRepoInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    post:
+      tags:
+        - "Admin"
+      summary: Create a new K8s Repo
+      description: Create a new K8s Repo
+      operationId: createK8sRepo
+      requestBody:
+        $ref: '#/components/requestBodies/CreateK8sRepoRequest'
+      responses:
+        '202':
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/ObjectId_plus_OpId'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/admin/v1/k8srepos/{k8sRepoId}':
+    parameters:
+      - name: k8sRepoId
+        in: path
+        required: true
+        description: K8s Repo ID
+        schema:
+          type: string
+          format: uuid
+    get:
+      tags:
+        - "Admin"
+      summary: Query information about an individual K8s Repo
+      description: Query information about an individual K8s Repo
+      operationId: getK8sRepo
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/K8sRepoInfo'
+            application/yaml:
+              schema:
+                $ref: '#/components/schemas/K8sRepoInfo'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      tags:
+        - "Admin"
+      summary: Delete a K8s Repo
+      description: Delete a K8s Repo
+      operationId: deleteK8sRepo
+      responses:
+        '202':
+          description: Accepted
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        '5XX':
+          $ref: '#/components/responses/UnexpectedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 # END Admin
 
 externalDocs:
-  description: Find out more OSM
+  description: Find out more about OSM
   url: 'http://osm.etsi.org/wikipub'
 
 components:
@@ -3595,31 +5862,8 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/VnfPkgInfo'
-    CreateNsRequest:
-      type: object
-      properties:
-        nsdId:
-          description: |
-            Identifier of the NSD that defines the NS instance to be created.
-          type: string
-          format: uuid
-        nsName:
-          description: |
-            Human-readable name of the NS instance to be created.
-          type: string
-        nsDescription:
-          description: |
-            Human-readable description of the NS instance to be created.
-          type: string
-        vimAccountId:
-          description: |
-            Identifier of the VIM Account where the NS instance shall be created.
-          type: string
-          format: uuid
-      required:
-        - nsdId
-        - nsName
-        - vimAccountId
+    # CreateNsRequest:
+      # Substituted by InstantiateNsRequest
     NsInstance:
       description: |
         NS Instance Information
@@ -3663,10 +5907,278 @@ components:
             Identifier of the VIM Account where the NS instance shall be created.
           type: string
           format: uuid
+        lcmOperationType:
+          type: string
+        nsInstanceId:
+          type: string
+          format: uuid
+        netsliceInstanceId:
+          type: string
+          format: uuid
+        nsDescription:
+          type: string
+          nullable: true
+        wimAccountId:
+          oneOf:
+            - type: string
+            - type: boolean
+          nullable: true
+        additionalParamsForNs:
+          type: object
+          additionalProperties: true
+        additionalParamsForVnf:
+          type: array
+          items:
+            type: object
+            properties:
+              member-vnf-index:
+                type: string
+              additionalParams:
+                type: object
+                additionalProperties: true
+              additionalParamsForVdu:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    vdu_id:
+                      type: string
+                    additionalParams:
+                      type: object
+                      additionalProperties: true
+                  required:
+                    - vdu_id
+                    - additionalParams
+                  additionalProperties: false
+              additionalParamsForKdu:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    kdu_name:
+                      type: string
+                    additionalParams:
+                      type: object
+                      additionalProperties: true
+                  required:
+                    - kdu_name
+                    - additionalParams
+                  additionalProperties: false
+            required:
+              - member-vnf-index
+            minProperties: 2
+            additionalProperties: false
+        ssh_keys:
+          type: array
+          items:
+            type: string
+        nsr_id:
+          type: string
+          format: uuid
+        vduImage:
+          type: string
+        vnf:
+          type: array
+          items:
+            type: object
+            properties:
+              member-vnf-index:
+                type: string
+              vimAccountId:
+                type: string
+                format: uuid
+              vdu:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    volume:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          vim-volume-id:
+                            type: string
+                        required:
+                          - name
+                          - vim-volume-id
+                        additionalProperties: false
+                      minItems: 1
+                    interface:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          ip-address:
+                            type: string
+                            format: ipv4
+                          mac-address:
+                            type: string
+                            format: mac_address
+                          floating-ip-required:
+                            type: boolean
+                        required:
+                          - name
+                        additionalProperties: false
+                      minItems: 1
+                  required:
+                    - id
+                  additionalProperties: false
+                minItems: 1
+              internal-vld:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    vim-network-name:
+                      type: string
+                    vim-network-id:
+                      type: string
+                    ip-profile:
+                      type: object
+                      properties:
+                        ip-version:
+                          type: string
+                          enum:
+                            - ipv4
+                            - ipv6
+                        subnet-address:
+                          type: string
+                          format: ip_prefix
+                          nullable: true
+                        gateway-address:
+                          type: string
+                          format: ipv4
+                          nullable: true
+                        dns-server:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              address:
+                                type: string
+                                format: ipv4
+                            required:
+                              - address
+                            additionalProperties: false
+                          minItems: 1
+                          nullable: true
+                        dhcp-params:
+                          type: object
+                          properties:
+                            enabled:
+                              type: boolean
+                            count:
+                              type: integer
+                              minimum: 1
+                            start-address:
+                              type: string
+                              format: ipv4
+                          additionalProperties: false
+                          nullable: true
+                      additionalProperties: false
+                    provider-network:
+                      type: object
+                      properties:
+                        physical-network:
+                          type: string
+                        segmentation-id:
+                          type: string
+                      additionalProperties: false
+                    internal-connection-point:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id-ref:
+                            type: string
+                          ip-address:
+                            type: string
+                            format: ipv4
+                        required:
+                          - id-ref
+                        minProperties: 2
+                        additionalProperties: False
+                      minItems: 1
+                  required:
+                    - name
+                  minProperties: 2
+                  additionalProperties: false
+                minItems: 1
+            required:
+              - member-vnf-index
+            minProperties: 2
+            additionalProperties: false
+          minItems: 1
+        vld:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              vim-network-name:
+                oneOf:
+                  - type: string
+                  - type: object
+              vim-network-id:
+                oneOf:
+                  - type: string
+                  - type: object
+              ns-net:
+                type: object
+                additionalProperties: true
+              wimAccountId:
+                oneOf:
+                  - type: string
+                  - type: boolean
+                nullable: true
+              ip-profile:
+                type: object
+                additionalProperties: true
+              provider-network:
+                type: object
+                properties:
+                  physical-network:
+                    type: string
+                  segmentation-id:
+                    type: string
+                additionalProperties: false
+              vnfd-connection-point-ref:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    member-vnf-index-ref:
+                      type: string
+                    vnfd-connection-point-ref:
+                      type: string
+                    ip-address:
+                      type: string
+                      format: ipv4
+                  required:
+                    - member-vnf-index-ref
+                    - vnfd-connection-point-ref
+                  minProperties: 3
+                  additionalProperties: false
+                minItems: 1
+            required:
+              - name
+            additionalProperties: false
+          minItems: 1
       required:
         - nsName
         - nsdId
         - vimAccountId
+      additionalProperties: false
     ScaleNsRequest:
       type: object
       properties:
@@ -3728,27 +6240,8 @@ components:
         - primitive
         - primitive_params
       additionalProperties: false
-    CreateNSinstanceContentRequest:
-      type: object
-      properties:
-        nsdId:
-          description: |
-            Identifier of the NSD that defines the NS instance to be created.
-          type: string
-          format: uuid
-        nsName:
-          description: |
-            Human-readable name of the NS instance to be created.
-          type: string
-        vimAccountId:
-          description: |
-            Identifier of the VIM Account where the NS instance shall be created.
-          type: string
-          format: uuid
-      required:
-        - nsdId
-        - nsName
-        - vimAccountId
+    # CreateNSinstanceContentRequest:
+      # Substituted by InstantiateNsRequest
     CreateNSinstanceContentResponse:
       type: object
       properties:
@@ -3909,31 +6402,8 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/NetSliceInstance'
-    CreateNsiRequest:
-      type: object
-      properties:
-        nstId:
-          description: |
-            Identifier of the NST that defines the NetSlice instance to be created.
-          type: string
-          format: uuid
-        nsiName:
-          description: |
-            Human-readable name of the NetSlice instance to be created.
-          type: string
-        nsiDescription:
-          description: |
-            Human-readable description of the NetSlice instance to be created.
-          type: string
-        vimAccountId:
-          description: |
-            Identifier of the VIM Account where the NetSlice instance shall be created.
-          type: string
-          format: uuid
-      required:
-        - nstId
-        - nsiName
-        - vimAccountId
+    # CreateNsiRequest:
+      # Substituted by InstantiateNsiRequest
     InstantiateNsiRequest:
       type: object
       properties:
@@ -3951,10 +6421,333 @@ components:
             Identifier of the VIM Account where the NetSlice instance shall be created.
           type: string
           format: uuid
+        lcmOperationType:
+          type: string
+        netsliceInstanceId:
+          type: string
+          format: uuid
+        nsiDescription:
+          type: string
+          nullable: true
+        ssh_keys:
+          type: string
+        nsi_id:
+          type: string
+          format: uuid
+        additionalParamsForNsi:
+          type: object
+          additionalProperties: true
+        netslice-subnet:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              nsName:
+                type: string
+              nsdId:
+                type: string
+                format: uuid
+              vimAccountId:
+                type: string
+                format: uuid
+              lcmOperationType:
+                type: string
+              nsInstanceId:
+                type: string
+                format: uuid
+              netsliceInstanceId:
+                type: string
+                format: uuid
+              nsDescription:
+                type: string
+                nullable: true
+              wimAccountId:
+                oneOf:
+                  - type: string
+                  - type: boolean
+                nullable: true
+              additionalParamsForNs:
+                type: object
+                additionalProperties: true
+              additionalParamsForVnf:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    member-vnf-index:
+                      type: string
+                    additionalParams:
+                      type: object
+                      additionalProperties: true
+                    additionalParamsForVdu:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          vdu_id:
+                            type: string
+                          additionalParams:
+                            type: object
+                            additionalProperties: true
+                        required:
+                          - vdu_id
+                          - additionalParams
+                        additionalProperties: false
+                    additionalParamsForKdu:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          kdu_name:
+                            type: string
+                          additionalParams:
+                            type: object
+                            additionalProperties: true
+                        required:
+                          - kdu_name
+                          - additionalParams
+                        additionalProperties: false
+                  required:
+                    - member-vnf-index
+                  minProperties: 2
+                  additionalProperties: false
+              ssh_keys:
+                type: array
+                items:
+                  type: string
+              nsr_id:
+                type: string
+                format: uuid
+              vduImage:
+                type: string
+              vnf:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    member-vnf-index:
+                      type: string
+                    vimAccountId:
+                      type: string
+                      format: uuid
+                    vdu:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          volume:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                vim-volume-id:
+                                  type: string
+                              required:
+                                - name
+                                - vim-volume-id
+                              additionalProperties: false
+                            minItems: 1
+                          interface:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                name:
+                                  type: string
+                                ip-address:
+                                  type: string
+                                  format: ipv4
+                                mac-address:
+                                  type: string
+                                  format: mac_address
+                                floating-ip-required:
+                                  type: boolean
+                              required:
+                                - name
+                              additionalProperties: false
+                            minItems: 1
+                        required:
+                          - id
+                        additionalProperties: false
+                      minItems: 1
+                    internal-vld:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                          vim-network-name:
+                            type: string
+                          vim-network-id:
+                            type: string
+                          ip-profile:
+                            type: object
+                            properties:
+                              ip-version:
+                                type: string
+                                enum:
+                                  - ipv4
+                                  - ipv6
+                              subnet-address:
+                                type: string
+                                format: ip_prefix
+                                nullable: true
+                              gateway-address:
+                                type: string
+                                format: ipv4
+                                nullable: true
+                              dns-server:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    address:
+                                      type: string
+                                      format: ipv4
+                                  required:
+                                    - address
+                                  additionalProperties: false
+                                minItems: 1
+                                nullable: true
+                              dhcp-params:
+                                type: object
+                                properties:
+                                  enabled:
+                                    type: boolean
+                                  count:
+                                    type: integer
+                                    minimum: 1
+                                  start-address:
+                                    type: string
+                                    format: ipv4
+                                additionalProperties: false
+                                nullable: true
+                            additionalProperties: false
+                          provider-network:
+                            type: object
+                            properties:
+                              physical-network:
+                                type: string
+                              segmentation-id:
+                                type: string
+                            additionalProperties: false
+                          internal-connection-point:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                id-ref:
+                                  type: string
+                                ip-address:
+                                  type: string
+                                  format: ipv4
+                              required:
+                                - id-ref
+                              minProperties: 2
+                              additionalProperties: False
+                            minItems: 1
+                        required:
+                          - name
+                        minProperties: 2
+                        additionalProperties: false
+                      minItems: 1
+                  required:
+                    - member-vnf-index
+                  minProperties: 2
+                  additionalProperties: false
+                minItems: 1
+              vld:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    vim-network-name:
+                      oneOf:
+                        - type: string
+                        - type: object
+                    vim-network-id:
+                      oneOf:
+                        - type: string
+                        - type: object
+                    ns-net:
+                      type: object
+                      additionalProperties: true
+                    wimAccountId:
+                      oneOf:
+                        - type: string
+                        - type: boolean
+                      nullable: true
+                    ip-profile:
+                      type: object
+                      additionalProperties: true
+                    provider-network:
+                      type: object
+                      properties:
+                        physical-network:
+                          type: string
+                        segmentation-id:
+                          type: string
+                      additionalProperties: false
+                    vnfd-connection-point-ref:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          member-vnf-index-ref:
+                            type: string
+                          vnfd-connection-point-ref:
+                            type: string
+                          ip-address:
+                            type: string
+                            format: ipv4
+                        required:
+                          - member-vnf-index-ref
+                          - vnfd-connection-point-ref
+                        minProperties: 3
+                        additionalProperties: false
+                      minItems: 1
+                  required:
+                    - name
+                  additionalProperties: false
+                minItems: 1
+            additionalProperties: false
+          minItems: 1
+        netslice-vld:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              vim-network-name:
+                oneOf:
+                  - type: string
+                  - type: object
+              vim-network-id:
+                oneOf:
+                  - type: string
+                  - type: object
+              ip-profile:
+                type: object
+                additionalProperties: true
+            required:
+              - name
+            additionalProperties: false
+          minItems: 1
       required:
         - nsiName
         - nstId
         - vimAccountId
+      additionalProperties: false
     TerminateNsiRequest:
       type: object
       properties:
@@ -3980,27 +6773,8 @@ components:
       required:
         - primitive
         - primitive_params
-    CreateNsiContentRequest:
-      type: object
-      properties:
-        nstId:
-          description: |
-            Identifier of the NST that defines the NetSlice instance to be created.
-          type: string
-          format: uuid
-        nsiName:
-          description: |
-            Human-readable name of the NetSlice instance to be created.
-          type: string
-        vimAccountId:
-          description: |
-            Identifier of the VIM Account where the NetSlice instance shall be created.
-          type: string
-          format: uuid
-      required:
-        - nsdId
-        - nsName
-        - vimAccountId
+    # CreateNsiContentRequest:
+      # Substituted by InstantiateNsiRequest
     CreateNsiContentResponse:
       type: object
       properties:
@@ -4072,6 +6846,879 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/NsiLcmOpOcc'
+    TokenInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+        id:
+          type: string
+        admin:
+          type: boolean
+        project_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        project_name:
+          type: string
+        username:
+          type: string
+        issued_at:
+          type: number
+          format: float
+        expires:
+          type: number
+          format: float
+        remote_host:
+          type: string
+          format: ipv4
+        remote_port:
+          type: integer
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              name:
+                type: string
+    ArrayOfTokenInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/TokenInfo'
+    CreateTokenRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        project_id:
+          type: string
+      required:
+        - username
+        - password
+    UserInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        username:
+          type: string
+        password:
+          type: string
+        project_role_mappings:
+          type: array
+          items:
+            type: object
+            properties:
+              project:
+                type: string
+                format: uuid
+              role:
+                type: string
+                format: uuid
+              project_name:
+                type: string
+              role_name:
+                type: string
+        projects:
+          type: array
+          items:
+            type: string
+    ArrayOfUserInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserInfo'
+    ProjectRoleMappings:
+      type: array
+      items:
+        type: object
+        properties:
+          project:
+            type: string
+          role:
+            type: string
+      required:
+        - project
+        - role
+      additionalProperties: false
+    ProjectRoleMappingsOpt:
+      type: array
+      items:
+        type: object
+        properties:
+          project:
+            type: string
+          role:
+            type: string
+      required:
+        - project
+      additionalProperties: false
+    CreateUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        projects:
+          type: array
+          items:
+            type: string
+        project_role_mappings:
+          $ref: '#/components/schemas/ProjectRoleMappings'
+      required:
+        - username
+        - password
+      additionalProperties: false
+    ShortNameList:
+      type: array
+      items:
+        type: string
+    ArrayEditionSchema:
+      type: object
+      additionalProperties: true
+      minProperties: 1
+      description: |
+        Array edition keys must start with '$'
+        and follow the syntax defined in: https://osm.etsi.org/wikipub/index.php/NBI_API_Description
+    EditUserRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+        projects:
+          oneOf:
+            - $ref: '#/components/schemas/ShortNameList'
+            - $ref: '#/components/schemas/ArrayEditionSchema'
+        project_role_mappings:
+          $ref: '#/components/schemas/ProjectRoleMappings'
+        add_project_role_mappings:
+          $ref: '#/components/schemas/ProjectRoleMappings'
+        remove_project_role_mappings:
+          $ref: '#/components/schemas/ProjectRoleMappingsOpt'
+    QuotasInfo:
+      type: object
+      properties:
+        vnfds:
+          type: integer
+          minimum: 0
+          nullable: false
+        nsds:
+          type: integer
+          minimum: 0
+          nullable: false
+        nsts:
+          type: integer
+          minimum: 0
+          nullable: false
+        pdus:
+          type: integer
+          minimum: 0
+          nullable: false
+        nsrs:
+          type: integer
+          minimum: 0
+          nullable: false
+        nsis:
+          type: integer
+          minimum: 0
+          nullable: false
+        vim_accounts:
+          type: integer
+          minimum: 0
+          nullable: false
+        wim_accounts:
+          type: integer
+          minimum: 0
+          nullable: false
+        sdns:
+          type: integer
+          minimum: 0
+          nullable: false
+      additionalProperties: false
+    EditQuotasInfo:
+      type: object
+      properties:
+        vnfds:
+          type: integer
+          minimum: 0
+          nullable: true
+        nsds:
+          type: integer
+          minimum: 0
+          nullable: true
+        nsts:
+          type: integer
+          minimum: 0
+          nullable: true
+        pdus:
+          type: integer
+          minimum: 0
+          nullable: true
+        nsrs:
+          type: integer
+          minimum: 0
+          nullable: true
+        nsis:
+          type: integer
+          minimum: 0
+          nullable: true
+        vim_accounts:
+          type: integer
+          minimum: 0
+          nullable: true
+        wim_accounts:
+          type: integer
+          minimum: 0
+          nullable: true
+        sdns:
+          type: integer
+          minimum: 0
+          nullable: true
+      additionalProperties: false
+    ProjectInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        quotas:
+          $ref: '#/components/schemas/QuotasInfo'
+    ArrayOfProjectInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProjectInfo'
+    CreateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        admin:
+          type: boolean
+        quotas:
+          $ref: '#/components/schemas/QuotasInfo'
+      required:
+        - name
+      additionalProperties: false
+    EditProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        admin:
+          type: boolean
+        quotas:
+          $ref: '#/components/schemas/EditQuotasInfo'
+      additionalProperties: false
+    PermissionsInfo:
+      type: object
+      additionalProperties:
+        type: boolean
+        nullable: false
+      description: |
+        Permissions keys must follow the syntax 'main_topic[:subtopic[:id[:component|action|etc]]]'
+        Permission values are either true or false
+    EditPermissionsInfo:
+      type: object
+      additionalProperties:
+        type: boolean
+        nullable: true
+      description: |
+        Permissions keys must follow the syntax 'main_topic[:subtopic[:id[:component|action|etc]]]'
+        Permission values are either true, false, or null
+    RoleInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        permissions:
+          $ref: '#/components/schemas/PermissionsInfo'
+    ArrayOfRoleInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/RoleInfo'
+    CreateRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        permissions:
+          $ref: '#/components/schemas/PermissionsInfo'
+      required:
+        - name
+      additionalProperties: false
+    EditRoleRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        permissions:
+          $ref: '#/components/schemas/EditPermissionsInfo'
+      additionalProperties: false
+    VimType:
+      type: string
+      enum:
+        - openvim
+        - openstack
+        - vmware
+        - opennebula
+        - aws
+        - azure
+        - fos
+    VimInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+        schema_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        vim:
+          type: string
+        datacenter:
+          type: string
+        vim_type:
+          $ref: '#/components/schemas/VimType'
+        vim_url:
+          type: string
+          format: url     # uri?
+        vim_tenant_name:
+          type: string
+        vim_user:
+          type: string
+        vim_password:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+    ArrayOfVimInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/VimInfo'
+    CreateVimRequest:
+      type: object
+      properties:
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+        schema_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        vim:
+          type: string
+        datacenter:
+          type: string
+        vim_type:
+          $ref: '#/components/schemas/VimType'
+        vim_url:
+          type: string
+          format: url     # uri?
+        vim_tenant_name:
+          type: string
+        vim_user:
+          type: string
+        vim_password:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+      required:
+        - name
+        - vim_url
+        - vim_type
+        - vim_user
+        - vim_password
+        - vim_tenant_name
+      additionalProperties: false
+    EditVimRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        vim:
+          type: string
+        datacenter:
+          type: string
+        vim_type:
+          $ref: '#/components/schemas/VimType'
+        vim_url:
+          type: string
+          format: url     # uri?
+        vim_tenant_name:
+          type: string
+        vim_user:
+          type: string
+        vim_password:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    ObjectId_plus_OpId:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        op_id:
+          type: string
+          format: uuid
+    OpId:
+      type: object
+      properties:
+        op_id:
+          type: string
+          format: uuid
+    WimType:
+      type: string
+      enum:
+        - onos
+        - odl
+        - tapi
+        - dynpac
+        - fake
+    WimInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+        schema_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        wim:
+          type: string
+        wim_type:
+          $ref: '#/components/schemas/WimType'
+        wim_url:
+          type: string
+          format: url     # uri?
+        user:
+          type: string
+        password:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+    ArrayOfWimInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/WimInfo'
+    CreateWimRequest:
+      type: object
+      properties:
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+        schema_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        wim:
+          type: string
+        wim_type:
+          $ref: '#/components/schemas/WimType'
+        wim_url:
+          type: string
+          format: url     # uri?
+        user:
+          type: string
+        password:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+      required:
+        - name
+        - wim_url
+        - wim_type
+      additionalProperties: false
+    EditWimRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        wim:
+          type: string
+        wim_type:
+          type: string
+        wim_url:
+          type: string
+          format: url     # uri?
+        user:
+          type: string
+        password:
+          type: string
+        config:
+          type: object
+          additionalProperties: true
+      additionalProperties: false
+    SdnBasicProperties:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        dpid:
+          type: string
+          format: mac_address
+        ip:
+          type: string
+          format: ipv4
+        port:
+          type: integer
+        type:
+          type: string
+          enum:
+            - floodlight
+            - opendaylight
+            - onos
+        version:
+          type: string
+        user:
+          type: string
+        password:
+          type: string
+    SdnExtraProperties:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+    SdnInfo:
+      allOf:
+        - $ref: '#/components/schemas/SdnExtraProperties'
+        - $ref: '#/components/schemas/SdnBasicProperties'
+    ArrayOfSdnInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/SdnInfo'
+    CreateSdnRequest:
+      allOf:
+        - $ref: '#/components/schemas/SdnBasicProperties'
+      required:
+        - name
+        - type
+        - ip
+        - port
+        - dpid
+      additionalProperties: false
+    EditSdnRequest:
+      allOf:
+        - $ref: '#/components/schemas/SdnBasicProperties'
+      additionalProperties: false
+    NsPmJobReportInfo:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            type: object
+            properties:
+              objectInstanceId:
+                type: string
+                format: uuid
+              performanceMetric:
+                type: string
+              performanceValue:
+                type: object
+                properties:
+                  performanceValue:
+                    type: object
+                    properties:
+                      performanceValue:
+                        type: number
+                      vnfMemberIndex:
+                        type: string
+                      vduName:
+                        type: string
+                  timestamp:
+                    type: number
+    PduInterfaces:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          mgmt:
+            type: boolean
+          type:
+            type: string
+            enum:
+              - overlay
+              - underlay
+          ip-address:
+            type: string
+            format: ipv4
+          mac-address:
+            type: string
+            format: mac_address
+          vim-network-name:
+            type: string
+          vim-network-id:
+            type: string
+        required:
+          - name
+          - mgmt
+          - ip-address
+        additionalProperties: false
+    PduInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        shared:
+          type: boolean
+        vims:
+          type: array
+          items:
+            type: string
+        vim_accounts:
+          type: array
+          items:
+            type: string
+        interfaces:
+          $ref: '#/components/schemas/PduInterfaces'
+    ArrayOfPduInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/PduInfo'
+    CreatePduRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        shared:
+          type: boolean
+        vims:
+          type: array
+          items:
+            type: string
+        vim_accounts:
+          type: array
+          items:
+            type: string
+        interfaces:
+          $ref: '#/components/schemas/PduInterfaces'
+      required:
+        - name
+        - type
+        - interfaces
+      additionalProperties: false
+    EditPduRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        shared:
+          type: boolean
+        vims:
+          type: array
+          items:
+            type: string
+        vim_accounts:
+          type: array
+          items:
+            type: string
+        interfaces:
+          $ref: '#/components/schemas/PduInterfaces'
+      additionalProperties: false
+    K8sClusterNetList:
+      type: array
+      items:
+        type: object
+        additionalProperties: true
+    K8sClusterInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+        schema_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        credentials:
+          type: object
+          additionalProperties: true
+        vim_account:
+          type: string
+          format: uuid
+        k8s_version:
+          type: string
+        nets:
+          $ref: '#/components/schemas/K8sClusterNetList'
+        namespace:
+          type: string
+        cni:
+          type: array
+          items:
+            type: string
+    ArrayOfK8sClusterInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/K8sClusterInfo'
+    CreateK8sClusterRequest:
+      type: object
+      properties:
+        schema_version:
+          type: string
+          format: X.Y[.Z]
+        schema_type:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        credentials:
+          type: object
+          additionalProperties: true
+        vim_account:
+          type: string
+          format: uuid
+        k8s_version:
+          type: string
+        nets:
+          $ref: '#/components/schemas/K8sClusterNetList'
+        namespace:
+          type: string
+        cni:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - credentials
+        - vim_account
+        - k8s_version
+        - nets
+      additionalProperties: false
+    EditK8sClusterRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        credentials:
+          type: object
+          additionalProperties: true
+        vim_account:
+          type: string
+          format: uuid
+        k8s_version:
+          type: string
+        nets:
+          $ref: '#/components/schemas/K8sClusterNetList'
+        namespace:
+          type: string
+        cni:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    K8sRepoType:
+      type: string
+      enum:
+        - chart
+        - bundle
+    K8sRepoInfo:
+      type: object
+      properties:
+        _id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          $ref: '#/components/schemas/K8sRepoType'
+        url:
+          type: string
+          format: url     # uri?
+    ArrayOfK8sRepoInfo:
+      type: array
+      items:
+        $ref: '#/components/schemas/K8sRepoInfo'
+    CreateK8sRepoRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        type:
+          $ref: '#/components/schemas/K8sRepoType'
+        url:
+          type: string
+          format: url     # uri?
+      required:
+        - name
+        - type
+        - url
+      additionalProperties: false
   # END SCHEMAS
 
   requestBodies:
@@ -4127,14 +7774,8 @@ components:
         text/plain:
           schema:
             $ref: '#/components/schemas/VnfDescriptor'
-    CreateNsRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateNsRequest'
-        application/yaml:
-          schema:
-            $ref: '#/components/schemas/CreateNsRequest'
+    # CreateNsRequest:
+      # Substituted by InstantiateNsRequest
     InstantiateNsRequest:
       content:
         application/json:
@@ -4159,14 +7800,8 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/TerminateNsRequest'
-    CreateNSinstanceContentRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateNSinstanceContentRequest'
-        application/yaml:
-          schema:
-            $ref: '#/components/schemas/CreateNSinstanceContentRequest'
+    # CreateNSinstanceContentRequest:
+      # Substituted by InstantiateNsRequest
     CreateNstInfoRequest:
       content:
         application/json:
@@ -4193,14 +7828,8 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/NstInfoModifications'
-    CreateNsiRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateNsiRequest'
-        application/yaml:
-          schema:
-            $ref: '#/components/schemas/CreateNsiRequest'
+    # CreateNsiRequest:
+      # Substituted by InstantiateNsiRequest
     InstantiateNsiRequest:
       content:
         application/json:
@@ -4225,14 +7854,152 @@ components:
         application/yaml:
           schema:
             $ref: '#/components/schemas/NsiActionRequest'
-    CreateNsiContentRequest:
+    # CreateNsiContentRequest:
+      # Substituted by InstantiateNsiRequest
+    CreateTokenRequest:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateNsiContentRequest'
+            $ref: '#/components/schemas/CreateTokenRequest'
         application/yaml:
           schema:
-            $ref: '#/components/schemas/CreateNsiContentRequest'
+            $ref: '#/components/schemas/CreateTokenRequest'
+    CreateUserRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateUserRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateUserRequest'
+    EditUserRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditUserRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditUserRequest'
+    CreateProjectRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateProjectRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateProjectRequest'
+    EditProjectRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditProjectRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditProjectRequest'
+    CreateRoleRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateRoleRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateRoleRequest'
+    EditRoleRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditRoleRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditRoleRequest'
+    CreateVimRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateVimRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateVimRequest'
+    EditVimRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditVimRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditVimRequest'
+    CreateWimRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateWimRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateWimRequest'
+    EditWimRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditWimRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditWimRequest'
+    CreateSdnRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateSdnRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateSdnRequest'
+    EditSdnRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditSdnRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditSdnRequest'
+    CreatePduRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreatePduRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreatePduRequest'
+    EditPduRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditPduRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditPduRequest'
+    CreateK8sClusterRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateK8sClusterRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateK8sClusterRequest'
+    EditK8sClusterRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EditK8sClusterRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/EditK8sClusterRequest'
+    CreateK8sRepoRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CreateK8sRepoRequest'
+        application/yaml:
+          schema:
+            $ref: '#/components/schemas/CreateK8sRepoRequest'
   # END REQUEST BODIES
 
   securitySchemes:
