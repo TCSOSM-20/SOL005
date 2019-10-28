@@ -15,12 +15,9 @@
 
 # This Dockerfile is intented for devops and deb package generation
 
-FROM alpine:latest
+FROM ubuntu:18.04
 
-RUN apk update
-RUN apk add bash
-RUN apk add nodejs
-RUN apk add nodejs-npm
+RUN apt-get update && apt-get install -y build-essential nodejs npm
 RUN npm install -g swagger-cli
 RUN npm install -g speccy
 
