@@ -33,6 +33,14 @@ tags:
     description: Management operations related to Performance Mangement of NS instances
   - name: 'Physical Data Units (PDU)'
     description: Management operations of PDUs
+  - name: 'Authentication'
+    description: Authentication operations
+  - name: 'Identity'
+    description: Management operations of users, projects and roles
+  - name: 'Infrastructure'
+    description: Management operations of VIM, VIM accounts, WIM and SDN controllers
+  - name: 'Repositories'
+    description: Management operations of repositories
   - name: 'Admin'
     description: Management operations of Administration items
 
@@ -3573,6 +3581,7 @@ paths:
   '/admin/v1/tokens':
     get:
       tags:
+        - "Authentication"
         - "Admin"
       summary: Query information about multiple Tokens
       description: Query information about multiple Tokens
@@ -3613,6 +3622,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Authentication"
         - "Admin"
       summary: Request a new Token
       description: Request a new Token
@@ -3660,6 +3670,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Authentication"
         - "Admin"
       summary: Delete the Token indicated in the Authorization Header
       description: Delete the Token indicated in the Authorization Header
@@ -3708,6 +3719,7 @@ paths:
           type: string
     get:
       tags:
+        - "Authentication"
         - "Admin"
       summary: Query information about an individual Token
       description: Query information about an individual Token
@@ -3748,6 +3760,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Authentication"
         - "Admin"
       summary: Delete the Token indicated as parameter
       description: Delete the Token indicated as parameter
@@ -3789,6 +3802,7 @@ paths:
   '/admin/v1/users':
     get:
       tags:
+        - "Identity"
         - "Admin"
       summary: Query information about multiple Users
       description: Query information about multiple Users
@@ -3829,6 +3843,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Identity"
         - "Admin"
       summary: Create a new User
       description: Create a new User
@@ -3884,6 +3899,7 @@ paths:
           type: string
     get:
       tags:
+        - "Identity"
         - "Admin"
       summary: Query information about an individual User
       description: Query information about an individual User
@@ -3924,6 +3940,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Identity"
         - "Admin"
       summary: Modify a User
       description: Modify a User
@@ -3959,6 +3976,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Identity"
         - "Admin"
       summary: Delete a User
       description: Delete a User
@@ -3993,6 +4011,7 @@ paths:
   '/admin/v1/projects':
     get:
       tags:
+        - "Identity"
         - "Admin"
       summary: Query information about multiple Projects
       description: Query information about multiple Projects
@@ -4033,6 +4052,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Identity"
         - "Admin"
       summary: Create a new Project
       description: Create a new Project
@@ -4088,6 +4108,7 @@ paths:
           type: string
     get:
       tags:
+        - "Identity"
         - "Admin"
       summary: Query information about an individual Project
       description: Query information about an individual Project
@@ -4128,6 +4149,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Identity"
         - "Admin"
       summary: Modify a Project
       description: Modify a Project
@@ -4163,6 +4185,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Identity"
         - "Admin"
       summary: Delete a Project
       description: Delete a Project
@@ -4197,6 +4220,7 @@ paths:
   '/admin/v1/roles':
     get:
       tags:
+        - "Identity"
         - "Admin"
       summary: Query information about multiple Roles
       description: Query information about multiple Roles
@@ -4237,6 +4261,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Identity"
         - "Admin"
       summary: Create a new Role
       description: Create a new Role
@@ -4292,6 +4317,7 @@ paths:
           type: string
     get:
       tags:
+        - "Identity"
         - "Admin"
       summary: Query information about an individual Role
       description: Query information about an individual Role
@@ -4332,6 +4358,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Identity"
         - "Admin"
       summary: Modify a Role
       description: Modify a Role
@@ -4367,6 +4394,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Identity"
         - "Admin"
       summary: Delete a Role
       description: Delete a Role
@@ -4401,6 +4429,7 @@ paths:
   '/admin/v1/vims':
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about multiple VIMs
       description: Query information about multiple VIMs
@@ -4441,6 +4470,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Create a new VIM
       description: Create a new VIM
@@ -4492,6 +4522,7 @@ paths:
           format: uuid
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about an individual VIM
       description: Query information about an individual VIM
@@ -4532,6 +4563,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Modify a VIM
       description: Modify a VIM
@@ -4574,6 +4606,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Delete a VIM
       description: Delete a VIM
@@ -4608,6 +4641,7 @@ paths:
   '/admin/v1/vim_accounts':
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about multiple VIM Accounts
       description: Query information about multiple VIM Accounts
@@ -4648,6 +4682,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Create a new VIM Account
       description: Create a new VIM Account
@@ -4699,6 +4734,7 @@ paths:
           format: uuid
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about an individual VIM Account
       description: Query information about an individual VIM Account
@@ -4739,6 +4775,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Modify a VIM Account
       description: Modify a VIM Account
@@ -4781,6 +4818,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Delete a VIM Account
       description: Delete a VIM Account
@@ -4815,6 +4853,7 @@ paths:
   '/admin/v1/wim_accounts':
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about multiple WIM Accounts
       description: Query information about multiple WIM Accounts
@@ -4855,6 +4894,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Create a new WIM Account
       description: Create a new WIM Account
@@ -4906,6 +4946,7 @@ paths:
           format: uuid
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about an individual WIM Account
       description: Query information about an individual WIM Account
@@ -4946,6 +4987,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Modify a WIM Account
       description: Modify a WIM Account
@@ -4988,6 +5030,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Delete a WIM Account
       description: Delete a WIM Account
@@ -5022,6 +5065,7 @@ paths:
   '/admin/v1/sdns':
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about multiple SDNs
       description: Query information about multiple SDNs
@@ -5062,6 +5106,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Create a new SDN
       description: Create a new SDN
@@ -5113,6 +5158,7 @@ paths:
           format: uuid
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about an individual SDN
       description: Query information about an individual SDN
@@ -5153,6 +5199,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Modify a SDN
       description: Modify a SDN
@@ -5195,6 +5242,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Delete a SDN
       description: Delete a SDN
@@ -5229,6 +5277,7 @@ paths:
   '/admin/v1/k8sclusters':
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about multiple K8s Clusters
       description: Query information about multiple K8s Clusters
@@ -5269,6 +5318,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Create a new K8s Cluster
       description: Create a new K8s Cluster
@@ -5320,6 +5370,7 @@ paths:
           format: uuid
     get:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Query information about an individual K8s Cluster
       description: Query information about an individual K8s Cluster
@@ -5360,6 +5411,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Modify a K8s Cluster
       description: Modify a K8s Cluster
@@ -5402,6 +5454,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Infrastructure"
         - "Admin"
       summary: Delete a K8s Cluster
       description: Delete a K8s Cluster
@@ -5436,6 +5489,7 @@ paths:
   '/admin/v1/k8srepos':
     get:
       tags:
+        - "Repositories"
         - "Admin"
       summary: Query information about multiple K8s Repos
       description: Query information about multiple K8s Repos
@@ -5476,6 +5530,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
+        - "Repositories"
         - "Admin"
       summary: Create a new K8s Repo
       description: Create a new K8s Repo
@@ -5527,6 +5582,7 @@ paths:
           format: uuid
     get:
       tags:
+        - "Repositories"
         - "Admin"
       summary: Query information about an individual K8s Repo
       description: Query information about an individual K8s Repo
@@ -5567,6 +5623,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
+        - "Repositories"
         - "Admin"
       summary: Delete a K8s Repo
       description: Delete a K8s Repo
