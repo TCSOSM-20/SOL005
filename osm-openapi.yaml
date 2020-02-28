@@ -29,9 +29,9 @@ tags:
     description: Management operations of NetSlice Templates
   - name: 'NetSlice instances'
     description: Management operations of NetSlice Instances
-  - name: 'NSPM'
-    description: Management operations of NSPMs
-  - name: 'PDU'
+  - name: 'NS Performance Management'
+    description: Management operations related to Performance Mangement of NS instances
+  - name: 'Physical Data Units (PDU)'
     description: Management operations of PDUs
   - name: 'Admin'
     description: Management operations of Administration items
@@ -3322,7 +3322,7 @@ paths:
           type: string
     get:
       tags:
-        - "NSPM"
+        - "NS Performance Management"
       summary: Query information about an individual NS PM Job Report
       description: Query information about an individual NS PM Job Report
       operationId: getNsPmJobReport
@@ -3366,7 +3366,7 @@ paths:
   '/pdu/v1/pdu_descriptors':
     get:
       tags:
-        - "PDU"
+        - "Physical Data Units (PDU)"
       summary: Query information about multiple PDU Descriptors
       description: Query information about multiple PDU Descriptors
       operationId: getPDUs
@@ -3406,7 +3406,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     post:
       tags:
-        - "PDU"
+        - "Physical Data Units (PDU)"
       summary: Create a new PDU
       description: Create a new PDU Descriptor
       operationId: createPDU
@@ -3461,7 +3461,7 @@ paths:
           type: string
     get:
       tags:
-        - "PDU"
+        - "Physical Data Units (PDU)"
       summary: Query information about an individual PDU Descriptor
       description: Query information about an individual PDU Descriptor
       operationId: getPDU
@@ -3501,7 +3501,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     patch:
       tags:
-        - "PDU"
+        - "Physical Data Units (PDU)"
       summary: Modify an individual PDU Descriptor
       description: Modify an individual PDU Descriptor
       operationId: editPDU
@@ -3536,7 +3536,7 @@ paths:
           $ref: '#/components/responses/UnexpectedError'
     delete:
       tags:
-        - "PDU"
+        - "Physical Data Units (PDU)"
       summary: Delete an individual PDU Descriptor
       description: Delete an individual PDU Descriptor
       operationId: deletePDU
