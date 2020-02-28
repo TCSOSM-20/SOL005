@@ -2,7 +2,7 @@ openapi: 3.0.0
 
 servers:
   - description: OSM NB API
-    url: https://osm.etsi.org/nbapi/v1.0.0
+    url: 'https://osm.etsi.org/nbapi/v1.0.0'
 
 info:
   description: |
@@ -5602,7 +5602,7 @@ paths:
 
 externalDocs:
   description: Find out more about OSM
-  url: 'http://osm.etsi.org/wikipub'
+  url: 'https://osm.etsi.org/docs/user-guide/'
 
 components:
   responses:
@@ -7202,7 +7202,7 @@ components:
           $ref: '#/components/schemas/VimType'
         vim_url:
           type: string
-          format: url     # uri?
+          format: uri
         vim_tenant_name:
           type: string
         vim_user:
@@ -7236,7 +7236,7 @@ components:
           $ref: '#/components/schemas/VimType'
         vim_url:
           type: string
-          format: url     # uri?
+          format: uri
         vim_tenant_name:
           type: string
         vim_user:
@@ -7269,7 +7269,7 @@ components:
           $ref: '#/components/schemas/VimType'
         vim_url:
           type: string
-          format: url     # uri?
+          format: uri
         vim_tenant_name:
           type: string
         vim_user:
@@ -7324,7 +7324,7 @@ components:
           $ref: '#/components/schemas/WimType'
         wim_url:
           type: string
-          format: url     # uri?
+          format: uri
         user:
           type: string
         password:
@@ -7354,7 +7354,7 @@ components:
           $ref: '#/components/schemas/WimType'
         wim_url:
           type: string
-          format: url     # uri?
+          format: uri
         user:
           type: string
         password:
@@ -7380,7 +7380,7 @@ components:
           type: string
         wim_url:
           type: string
-          format: url     # uri?
+          format: uri
         user:
           type: string
         password:
@@ -7697,7 +7697,7 @@ components:
           $ref: '#/components/schemas/K8sRepoType'
         url:
           type: string
-          format: url     # uri?
+          format: uri
     ArrayOfK8sRepoInfo:
       type: array
       items:
@@ -7713,7 +7713,7 @@ components:
           $ref: '#/components/schemas/K8sRepoType'
         url:
           type: string
-          format: url     # uri?
+          format: uri
       required:
         - name
         - type
